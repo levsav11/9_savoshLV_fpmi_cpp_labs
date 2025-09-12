@@ -1,8 +1,8 @@
 #include <iostream>
 int main() {
     setlocale(LC_ALL, "RUS");
-    long a=0; long b=1; long ch=0; long nch=1;
-    long n=3;
+    long a=0; long b=1; long ch=0; unsigned long nch=1;
+    int n=3;
     std::cout << "Введите n: ";
     while (!(std::cin >> n) || n <= 1) {
     std::cout << "n должно быть больше 1 и целым числом. Введите n: ";
