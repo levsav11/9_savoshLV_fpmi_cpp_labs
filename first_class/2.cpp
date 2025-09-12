@@ -11,11 +11,11 @@ int main() {
     std::cin.ignore(1000, '\n');}
 
     while (a <= n) {
-            ch = ch + a;
-            a = a + 2;}
+            ch += a;
+            a += 2;}
             std::cout << "Сумма чётных: " << ch << std::endl;
     while (b<=n) {
-            nch = nch * b;
-            b = b + 2;}
+            nch *= b;
+            b += 2;}
             std::cout << "Произведение нечётных: " << nch << std::endl;
     }
