@@ -1,11 +1,6 @@
 #include <iostream>
 #include <cmath>
 
-//Определение длины числа в символах
-int numlen(int number) {
-    std::string str = std::to_string(std::abs(number));
-    return str.length();}
-
 int main() {
     setlocale(LC_ALL, "RUS");
     int n;int k;int str=1;int date;
@@ -29,7 +24,7 @@ int main() {
         std::cout << str << "  |  ";
         for (int i=1;i<=7;i++){
             if(date>0&&date<=k){
-                if (numlen(date)==1){
+                if (date<10){
                     std::cout << " " << date << " ";}
                 else{
                     std::cout << date << " ";}
