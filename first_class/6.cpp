@@ -1,7 +1,7 @@
 #include <iostream>
 int main(){
     setlocale(LC_ALL, "RUS");
-    int n;int a=1;long s=0;
+    int n;
     //Ввод и проверка
     std::cout << "Введите n: ";
     while (!(std::cin >> n) || n <= 0) {
