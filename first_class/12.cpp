@@ -36,4 +36,5 @@ int main() {
         }
         std::cout << "\n";
         str+=1;}
+    return 0;
     }

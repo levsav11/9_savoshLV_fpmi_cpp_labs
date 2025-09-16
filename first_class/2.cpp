@@ -18,4 +18,5 @@ int main() {
             nch *= b;
             b += 2;}
             std::cout << "Произведение нечётных: " << nch << std::endl;
+    return 0;
     }

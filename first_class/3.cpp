@@ -11,8 +11,9 @@ int main() {
     std::cin.ignore(1000, '\n');}
 
     while (a<=n){
-        s+=pow(a,2);
+        s+=pow(a,a);
         a+=1;
     }
     std::cout << "Ответ:" << s;
+    return 0;
 }
