@@ -21,7 +21,9 @@ int main() {
 
     //Ход программы
     while(date<=k){
-        std::cout << str << "  |  ";
+        if (str<10){
+            std::cout << str << "  |  ";}
+        else {std::cout << str << " |  ";}
         for (int i=1;i<=7;i++){
             if(date>0&&date<=k){
                 if (date<10){
@@ -33,6 +35,5 @@ int main() {
             date+=1;
         }
         std::cout << "\n";
-        str+=1;
-    }
+        str+=1;}
     }
