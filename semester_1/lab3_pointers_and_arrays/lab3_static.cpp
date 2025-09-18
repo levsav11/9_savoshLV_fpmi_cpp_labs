@@ -82,41 +82,19 @@ int main(){
     
     std::cout << "Исходный массив: ";
     printArray(A, size);
-    
-    int write_index = 0;
-    
-    // Первый проход: элементы НЕ в интервале
+    int writePos = 0;
     for (int i = 0; i < size; i++) {
-        if (!(A[i] > lim1 && A[i] < lim2)) {
-            A[write_index++] = A[i];
+        if (A[i] <= lim1 || A[i] >= lim2) {
+            double temp = A[i];
+            for (int j = i; j > writePos; j--) {
+                A[j] = A[j - 1];
+            }
+            A[writePos] = temp;
+            writePos++;
         }
     }
-    
-    // Второй проход: элементы в интервале
-    for (int i = 0; i < size; i++) {
-        if (A[i] > lim1 && A[i] < lim2) {
-            A[write_index++] = A[i];
-        }
-    }
-    
-    std::cout << "Преобразованный массив: ";
-    printArray(A, size);
-/*
-    for (int index=size-1;index>=0;index--){
-        if ((A[index]>lim1)&&(A[index]<lim2)){
-                if (index!=size-1){
-                    int tmp=A[index];
-                    for (int i=index+1;i<size;i++){
-                        A[index-1]=A[index];
-                        std::cout << "Смена с " << (A[index-1]) << " На " << (A[index]) << std::endl;
-                        printArray(A,size);
-                    }
-                    A[size-1]=tmp;
-                    printArray(A,size);
-                }
-        }
-    }
-    //Вывод массива
-    printArray(A,size);*/
+    //Вывод
+    std::cout << "Полученный массив: ";
+    printArray(A,size);
     return 0;
 }
