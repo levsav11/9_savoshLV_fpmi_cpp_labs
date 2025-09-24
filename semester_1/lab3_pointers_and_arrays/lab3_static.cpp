@@ -3,7 +3,19 @@
 // static arrays
 #include <iostream>
 #include <random>
+#include <time.h>
 int mode,size;
+
+//Ввод и проверка. n - вводимая переменная, a,b - условия повторного ввода ((!cin И a) ИЛИ b)
+void inputcheck(auto n, bool a,bool b,bool c, std::string term){
+    std::cout << "Введите " << n << "("<< term << "):";
+    while ((!(std::cin >> n) & a) || b){
+        std::cout << "Неправильный ввод. Введите " << n << "("<< term << "):";
+        std::cin.clear();
+        std::cin.ignore(10000, '\n');
+    }
+    }
+
 void printArray(double A[], int size) {
     for (int i = 0; i < size; i++) {
         std::cout << A[i] << " ";
@@ -20,7 +32,10 @@ int main(){
     }
     //Начало
     std::cout << "Введите размер массива в элементах:";
-    std::cin >> size;
+    while (!(std::cin >> size) || (size<1)){
+        std::cout << "Неправильный ввод. Размер должен быть положительным. Введите размер:";
+        std::cin.clear();
+        std::cin.ignore(1000, '\n');}
     double A[size];
     //режим ввода 1
     if (mode==1){
@@ -37,7 +52,7 @@ int main(){
         std::cin >> a;
         std::cout << "Введите вернюю границу элементов массива:";
         std::cin >> b;
-        std::mt19937 gen(798465312);
+        std::mt19937 gen(time(0));
         std::uniform_real_distribution<double> dist(a, b);
         for (int i=0;i<size;i++){
         double x = dist(gen);
@@ -60,13 +75,15 @@ int main(){
     int n1=-1,n2=-1,s=0;
     for (int i=0;i<size;i++){
         if (A[i]>0){
-            if (n1=-1){
+            if (n1==-1){
             n1=i;
+            std::cout << "Номер первого положительного числа:" << n1 << std::endl;
             }
-            else if (n2=-1){
+            else if (n2==-1){
             n2=i;
+            std::cout << "Номер второго положительного числа:" << n2 << std::endl;
             }
-            else break;
+            else if (n2!=-1 && n1!=-1) break;
         }
     }
     for (int i=n1+1;i<n2-1;i++){
