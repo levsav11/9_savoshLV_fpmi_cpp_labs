@@ -2,18 +2,110 @@
 // dymanic arrays
 #include <iostream>
 #include <random>
+#include <limits>
+void printarray (int* Arr,int size){
+    for(int i=0;i<size;++i){
+        std::cout << Arr[i] << " ";
+    }
+    std::cout << std::endl;
+}
 
-//Ввод и проверка. n - вводимая переменная, a,b - условия ПОВТОРНОГО ввода ((!cin И a) ИЛИ b), term - Комментарий с требованиями к переменной
-auto inputcheck(auto n, bool a,bool b, std::string term){
-std::cout << "Введите " << n << " ("<< term << "):";
-while ((!(std::cin >> n) && a) || b){
-    std::cout << "Неправильный ввод. Введите " << n << "("<< term << "):";
-    std::cin.clear();
-    std::cin.ignore(10000, '\n');
-}
-return n;
-}
 int main(){
-    int n;
-    inputcheck(n, true, n<0, "N>0");
+    const int maxlength = 1000;
+
+    int size,mode;
+    std::cout << "Введите размер массива в элементах (от 1 до 999):";
+    while (!(std::cin >> size) || size>1000 || size<1) {
+        std::cout << "Ошибка ввода, попробуйте снова.\n Введите размер массива в элементах (от 1 до 999):";
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    }
+
+    int* Arr = new int[maxlength];
+
+    std::cout << "ВВЕДИТЕ: \n 1, если хотите ввести массив вручную \n 0, если хотите автоматически заполнить массив в нужном диапазоне чисел \n ОТВЕТ:";
+    while (!(std::cin >> mode) || mode>1 || mode<0) {
+        std::cout << "Ошибка ввода, попробуйте снова.\n ВВЕДИТЕ: \n 1, если хотите ввести массив вручную \n 0, если хотите автоматически заполнить массив в нужном диапазоне чисел \n ОТВЕТ:";
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    }
+    //Ручной ввод массива
+    if (mode==1){
+        std::cout << "Вводите " << size << " элементов:" << std::endl;
+        for (int i=0;i<size;++i){
+            if (!(std::cin >> Arr[i])){
+                std::cout << "Ошибка ввода";
+                return 1;
+            };
+        }
+        std::cout << "Исходный массив: ";
+        printarray(Arr,size);
+    }
+    //Автоматический ввод массива
+    else if(mode==0){
+        int a,b;
+        std::cout << "Введите нижнюю границу элементов массива:";
+        std::cin >> a;
+        std::cout << "Введите вернюю границу элементов массива:";
+        std::cin >> b;
+        if (a>b){
+            std::cout << "a должно быть меньше b";
+            exit(404);
+        }
+        std::mt19937 gen(time(0));
+        std::uniform_int_distribution<int> dist(a, b);
+        for (int i=0;i<size;i++){
+            int x = dist(gen);
+            Arr[i] = x;
+        }
+        std::cout << "Исходный массив: ";
+        printarray(Arr,size);
+    }
+    //задание 1 DONE
+    int max=0;
+    for (int i=0;i<size;++i){
+        int current=0;
+        for (int j=i;j<size;++j){
+            bool notunique=false;
+            for (int k=i;k<j;++k){
+                if (Arr[k]==Arr[j]){
+                    notunique=true;
+                    break;
+                }
+            }
+
+            if (notunique==true){
+                break;
+            }
+            current++;
+        }
+        if (current>max){
+            max=current;
+        }
+    }
+
+    std::cout << "Длина самой длинной цепочки подряд стоящих различных элементов: " << max << std::endl;
+    //задание 2 DONE
+    int summa=0;
+    bool k=false;
+    for (int i=0;i<size;++i){
+        if (k==false&&Arr[i]==0){
+            k=true;
+        }
+        if (k==true){
+            summa+=abs(Arr[i]);
+        }
+    }
+    if (k==true){
+    std::cout << "Сумма модулей элементов после первого нулевого: " << summa << std::endl;
+    }
+    else std::cout << "Сумма модулей элементов после первого нулевого: " << "—" << std::endl;
+
+    //Сжатие массива - доделать
+    std::cout << "Исходный массив: ";
+    printarray(Arr,size);
+    
+    std::cout << "Преобразованный массив: ";
+    printarray(Arr,size);
+    delete[] Arr;
 }

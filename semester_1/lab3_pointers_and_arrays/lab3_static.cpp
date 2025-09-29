@@ -43,54 +43,72 @@ int main(){
         for (int i=0;i<size;i++){
             std::cin >> A[i];
         }
+        std::cout << "Исходный массив: ";
         printArray(A,size);
     }
     //режим ввода 2
     else{
         int a,b,x;
         std::cout << "Введите нижнюю границу элементов массива:";
-        std::cin >> a;
+        if (!(std::cin >> a)){
+            exit(0);
+        }
         std::cout << "Введите вернюю границу элементов массива:";
-        std::cin >> b;
+        if (!(std::cin >> b)){
+            exit(0);
+        }
         std::mt19937 gen(time(0));
         std::uniform_real_distribution<double> dist(a, b);
         for (int i=0;i<size;i++){
         double x = dist(gen);
         A[i] = x;
         }
+        std::cout << "Исходный массив: ";
         printArray(A,size);
         }
     //Ход программы
-    //Кол-во различных элементов
-    int r=size;
-    for (int i=0;i<size;i++){
-        for (int j=0;j<size;j++){
-            if ((A[i]=A[j])&&(i=j)){
-                r-=r;
+    //Задание 1 - Кол-во различных элементов DONE
+    int count=0;
+    for (int i=0; i<size; i++){
+        bool isunique = true;
+        for (int j=0; j<i; j++){
+            if (A[i]==A[j]){
+                isunique=false;
+                break;
             }
+        } 
+        if (isunique){
+            count++;
         }
     }
-    std::cout << "Количество различных элементов:" << r << std::endl;
-    //Сумма элементов между первым и вторым положительным
+    std::cout << "Количество различных элементов: " << count << std::endl;
+
+    //Задание 2 - Сумма элементов между первым и вторым положительным DONE
     int n1=-1,n2=-1,s=0;
     for (int i=0;i<size;i++){
         if (A[i]>0){
             if (n1==-1){
             n1=i;
-            std::cout << "Номер первого положительного числа:" << n1 << std::endl;
+            std::cout << "Индекс первого положительного числа:" << n1 << std::endl;
             }
             else if (n2==-1){
             n2=i;
-            std::cout << "Номер второго положительного числа:" << n2 << std::endl;
+            std::cout << "Индекс второго положительного числа:" << n2 << std::endl;
             }
             else if (n2!=-1 && n1!=-1) break;
         }
     }
-    for (int i=n1+1;i<n2-1;i++){
-        s+=A[i];
+    if (n1+1==n2){
+        std::cout << "Сумма элементов между первым и вторым положительным: " << "—" << std::endl;
     }
-    std::cout << "Сумма элементов между первым и вторым положительным:" << s << std::endl;
-    //Преобразование
+    else{
+        for (int i=n1+1;i<n2-1;i++){
+            s+=A[i];
+        }
+        std::cout << "Сумма элементов между первым и вторым положительным:" << s << std::endl;
+    }
+    
+    //Преобразование - доделать
     double lim1,lim2;
     std::cout <<  "Введите НИЖНЮЮ границу интервала, принадлежащие которому элементы будут перенесены в конец:";
     std::cin >> lim1;
