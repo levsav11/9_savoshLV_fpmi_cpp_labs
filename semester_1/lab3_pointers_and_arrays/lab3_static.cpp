@@ -114,9 +114,6 @@ int main(){
     std::cin >> lim1;
     std::cout <<  "Введите ВЕРХНЮЮ границу интервала, принадлежащие которому элементы будут перенесены в конец:";
     std::cin >> lim2;
-    
-    std::cout << "Исходный массив: ";
-    printArray(A, size);
     int writepos = 0;
     for (int i = 0; i < size; i++) {
         if (A[i] < lim1 || A[i] > lim2) {

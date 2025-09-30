@@ -12,18 +12,14 @@ void printarray (int* Arr,int size){
 }
 //Ход программы
 int main(){
-    const int maxlength = 1000;
-
     int size,mode;
-    std::cout << "Введите размер массива в элементах (от 1 до 999):";
-    while (!(std::cin >> size) || size>1000 || size<1) {
-        std::cout << "Ошибка ввода, попробуйте снова.\n Введите размер массива в элементах (от 1 до 999):";
+    std::cout << "Введите размер массива в элементах:";
+    while (!(std::cin >> size) || (size<1)){
+        std::cout << "Неправильный ввод. Размер должен быть положительным. Введите размер:";
         std::cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cin.ignore(1000, '\n');
     }
-
-    int* Arr = new int[maxlength];
-
+    int* Arr = new int[size];
     std::cout << "ВВЕДИТЕ: \n 1, если хотите ввести массив вручную \n 0, если хотите автоматически заполнить массив в нужном диапазоне чисел \n ОТВЕТ:";
     while (!(std::cin >> mode) || mode>1 || mode<0) {
         std::cout << "Ошибка ввода, попробуйте снова.\n ВВЕДИТЕ: \n 1, если хотите ввести массив вручную \n 0, если хотите автоматически заполнить массив в нужном диапазоне чисел \n ОТВЕТ:";
@@ -59,8 +55,6 @@ int main(){
             int x = dist(gen);
             Arr[i] = x;
         }
-        std::cout << "Исходный массив: ";
-        printarray(Arr,size);
     }
     //задание 1 DONE
     int max=0;
