@@ -1,4 +1,3 @@
-
 // solve task with usage of
 // static arrays
 #include <iostream>
