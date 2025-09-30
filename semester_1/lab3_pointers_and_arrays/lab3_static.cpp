@@ -12,7 +12,7 @@ void inputcheck(auto n, bool a,bool b,bool c, std::string term){
     while ((!(std::cin >> n) & a) || b){
         std::cout << "Неправильный ввод. Введите " << n << "("<< term << "):";
         std::cin.clear();
-        std::cin.ignore(10000, '\n');
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
     }
 
@@ -49,11 +49,11 @@ int main(){
     //режим ввода 2
     else{
         int a,b,x;
-        std::cout << "Введите нижнюю границу элементов массива:";
+        std::cout << "Введите НИЖНЮЮ границу элементов массива:";
         if (!(std::cin >> a)){
             exit(0);
         }
-        std::cout << "Введите вернюю границу элементов массива:";
+        std::cout << "Введите ВЕРХНЮЮ границу элементов массива:";
         if (!(std::cin >> b)){
             exit(0);
         }
@@ -102,7 +102,7 @@ int main(){
         std::cout << "Сумма элементов между первым и вторым положительным: " << "—" << std::endl;
     }
     else{
-        for (int i=n1+1;i<n2-1;i++){
+        for (int i=n1+1;i<n2;i++){
             s+=A[i];
         }
         std::cout << "Сумма элементов между первым и вторым положительным:" << s << std::endl;
@@ -117,15 +117,15 @@ int main(){
     
     std::cout << "Исходный массив: ";
     printArray(A, size);
-    int writePos = 0;
+    int writepos = 0;
     for (int i = 0; i < size; i++) {
-        if (A[i] <= lim1 || A[i] >= lim2) {
-            double temp = A[i];
-            for (int j = i; j > writePos; j--) {
+        if (A[i] < lim1 || A[i] > lim2) {
+            double tmp = A[i];
+            for (int j = i; j > writepos; j--) {
                 A[j] = A[j - 1];
             }
-            A[writePos] = temp;
-            writePos++;
+            A[writepos] = tmp;
+            writepos++;
         }
     }
     //Вывод
