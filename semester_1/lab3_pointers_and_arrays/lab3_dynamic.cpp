@@ -3,13 +3,14 @@
 #include <iostream>
 #include <random>
 #include <limits>
+//Печать массива
 void printarray (int* Arr,int size){
     for(int i=0;i<size;++i){
         std::cout << Arr[i] << " ";
     }
     std::cout << std::endl;
 }
-
+//Ход программы
 int main(){
     const int maxlength = 1000;
 
@@ -101,10 +102,18 @@ int main(){
     }
     else std::cout << "Сумма модулей элементов после первого нулевого: " << "—" << std::endl;
 
-    //Сжатие массива - доделать
+    //Сжатие массива - DONE
     std::cout << "Исходный массив: ";
     printarray(Arr,size);
     
+    int write = 0;
+    for (int read=0; read<size; read+=2) {
+        int temp = Arr[read];
+        for (int j=read; j>write; j--) Arr[j] = Arr[j-1];
+        Arr[write] = temp;
+        write++;
+    }
+
     std::cout << "Преобразованный массив: ";
     printarray(Arr,size);
     delete[] Arr;
