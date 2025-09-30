@@ -17,7 +17,7 @@ int main(){
     while (!(std::cin >> size) || (size<1)){
         std::cout << "Неправильный ввод. Размер должен быть положительным. Введите размер:";
         std::cin.clear();
-        std::cin.ignore(1000, '\n');
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
     int* Arr = new int[size];
     std::cout << "ВВЕДИТЕ: \n 1, если хотите ввести массив вручную \n 0, если хотите автоматически заполнить массив в нужном диапазоне чисел \n ОТВЕТ:";
@@ -41,13 +41,17 @@ int main(){
     //Автоматический ввод массива
     else if(mode==0){
         int a,b;
-        std::cout << "Введите нижнюю границу элементов массива:";
-        std::cin >> a;
-        std::cout << "Введите вернюю границу элементов массива:";
-        std::cin >> b;
-        if (a>b){
-            std::cout << "a должно быть меньше b";
-            exit(404);
+        std::cout << "Введите НИЖНЮЮ границу элементов массива:";
+        while (!(std::cin >> a)){
+            std::cout << "Неправильный ввод. Введите нижнюю границу элементов массива:";
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        }
+        std::cout << "Введите ВЕРХНЮЮ границу элементов массива:";
+        while (!(std::cin >> b)){
+            std::cout << "Неправильный ввод. Введите вернюю границу элементов массива:";
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }
         std::mt19937 gen(time(0));
         std::uniform_int_distribution<int> dist(a, b);
