@@ -2,7 +2,6 @@
 // dymanic arrays
 #include <iostream>
 #include <random>
-#include <limits>
 //Печать массива
 void printarray (int* Arr,int size){
     for(int i=0;i<size;++i){
@@ -48,8 +47,8 @@ int main(){
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }
         std::cout << "Введите ВЕРХНЮЮ границу элементов массива:";
-        while (!(std::cin >> b)){
-            std::cout << "Неправильный ввод. Введите вернюю границу элементов массива:";
+        while (!(std::cin >> b)||b<a){
+            std::cout << "Неправильный ввод. Введите вернюю границу элементов массива (не меньше нижней):";
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }

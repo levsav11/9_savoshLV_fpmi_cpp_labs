@@ -3,19 +3,9 @@
 // static arrays
 #include <iostream>
 #include <random>
-#include <time.h>
 int mode,size;
 
 //Ввод и проверка. n - вводимая переменная, a,b - условия повторного ввода ((!cin И a) ИЛИ b)
-void inputcheck(auto n, bool a,bool b,bool c, std::string term){
-    std::cout << "Введите " << n << "("<< term << "):";
-    while ((!(std::cin >> n) & a) || b){
-        std::cout << "Неправильный ввод. Введите " << n << "("<< term << "):";
-        std::cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    }
-    }
-
 void printArray(double A[], int size) {
     for (int i = 0; i < size; i++) {
         std::cout << A[i] << " ";
@@ -39,9 +29,12 @@ int main(){
     double A[size];
     //режим ввода 1
     if (mode==1){
-        std::cout << "Вводите массив:";
-        for (int i=0;i<size;i++){
-            std::cin >> A[i];
+        std::cout << "Вводите " << size << " элементов:" << std::endl;
+        for (int i=0;i<size;++i){
+            if (!(std::cin >> A[i])){
+                std::cout << "Ошибка ввода";
+                return 1;
+            };
         }
         std::cout << "Исходный массив: ";
         printArray(A,size);
@@ -50,12 +43,16 @@ int main(){
     else{
         int a,b,x;
         std::cout << "Введите НИЖНЮЮ границу элементов массива:";
-        if (!(std::cin >> a)){
-            exit(0);
+        while (!(std::cin >> a)){
+            std::cout << "Неправильный ввод. Введите нижнюю границу элементов массива:";
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }
         std::cout << "Введите ВЕРХНЮЮ границу элементов массива:";
-        if (!(std::cin >> b)){
-            exit(0);
+        while (!(std::cin >> b)||b<a){
+            std::cout << "Неправильный ввод. Введите вернюю границу элементов массива (не меньше нижней):";
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }
         std::mt19937 gen(time(0));
         std::uniform_real_distribution<double> dist(a, b);
@@ -111,9 +108,17 @@ int main(){
     //Преобразование - доделать
     double lim1,lim2;
     std::cout <<  "Введите НИЖНЮЮ границу интервала, принадлежащие которому элементы будут перенесены в конец:";
-    std::cin >> lim1;
+    while (!(std::cin >> lim1)){
+        std::cout << "Неправильный ввод. Введите нижнюю границу интервала:";
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    }
     std::cout <<  "Введите ВЕРХНЮЮ границу интервала, принадлежащие которому элементы будут перенесены в конец:";
-    std::cin >> lim2;
+    while (!(std::cin >> lim2)){
+        std::cout << "Неправильный ввод. Введите верхнюю границу интервала:";
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    }
     int writepos = 0;
     for (int i = 0; i < size; i++) {
         if (A[i] < lim1 || A[i] > lim2) {
