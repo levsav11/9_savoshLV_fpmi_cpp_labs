@@ -17,14 +17,14 @@ int main(){
     while (!(std::cin >> mode) || (mode>1) || (mode<0)){
         std::cout << "Неправильный ввод. Введите: \n 1, если хотите ввести массив вручную \n 0, если хотите автоматически заполнить массив в нужном диапазоне чисел \n ОТВЕТ:";
         std::cin.clear();
-        std::cin.ignore(1000, '\n');
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
     //Начало
     std::cout << "Введите размер массива в элементах:";
     while (!(std::cin >> size) || (size<1)){
         std::cout << "Неправильный ввод. Размер должен быть положительным. Введите размер:";
         std::cin.clear();
-        std::cin.ignore(1000, '\n');}
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     double A[size];
     //режим ввода 1
     if (mode==1){
