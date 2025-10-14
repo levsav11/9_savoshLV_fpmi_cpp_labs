@@ -105,7 +105,7 @@ int main(){
 
     //Сжатие массива () - DONE
     print("Исходный массив: ");
-    printarray(Arr,size);
+    printArray(Arr,size);
     
     int write = 0;
     for (int read=0; read<size; read+=2) {
