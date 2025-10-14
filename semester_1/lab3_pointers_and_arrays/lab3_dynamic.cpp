@@ -3,25 +3,29 @@
 #include <iostream>
 #include <random>
 //Печать массива
-void printarray (int* Arr,int size){
-    for(int i=0;i<size;++i){
-        std::cout << Arr[i] << " ";
+void printArray(const int* A,const int &size){
+    for (int i = 0; i < size; i++) {
+        std::cout << A[i] << " ";
     }
     std::cout << std::endl;
+}
+//Печать строки
+void print(std::string str){
+    std::cout << str;
 }
 //Ход программы
 int main(){
     int size,mode;
-    std::cout << "Введите размер массива в элементах:";
+    print("Введите размер массива в элементах:");
     while (!(std::cin >> size) || (size<1)){
-        std::cout << "Неправильный ввод. Размер должен быть положительным. Введите размер:";
+        print("Неправильный ввод. Размер должен быть положительным. Введите размер:");
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
     int* Arr = new int[size];
-    std::cout << "ВВЕДИТЕ: \n 1, если хотите ввести массив вручную \n 0, если хотите автоматически заполнить массив в нужном диапазоне чисел \n ОТВЕТ:";
+    print("ВВЕДИТЕ: \n 1, если хотите ввести массив вручную \n 0, если хотите автоматически заполнить массив в нужном диапазоне чисел \n ОТВЕТ:");
     while (!(std::cin >> mode) || mode>1 || mode<0) {
-        std::cout << "Ошибка ввода, попробуйте снова.\n ВВЕДИТЕ: \n 1, если хотите ввести массив вручную \n 0, если хотите автоматически заполнить массив в нужном диапазоне чисел \n ОТВЕТ:";
+        print("Ошибка ввода, попробуйте снова.\n ВВЕДИТЕ: \n 1, если хотите ввести массив вручную \n 0, если хотите автоматически заполнить массив в нужном диапазоне чисел \n ОТВЕТ:");
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
@@ -30,25 +34,25 @@ int main(){
         std::cout << "Вводите " << size << " элементов:" << std::endl;
         for (int i=0;i<size;++i){
             if (!(std::cin >> Arr[i])){
-                std::cout << "Ошибка ввода";
+                print("Ошибка ввода");
                 return 1;
             };
         }
-        std::cout << "Исходный массив: ";
-        printarray(Arr,size);
+        print("Исходный массив: ");
+        printArray(Arr,size);
     }
     //Автоматический ввод массива
     else if(mode==0){
         int a,b;
-        std::cout << "Введите НИЖНЮЮ границу элементов массива:";
+        print("Введите НИЖНЮЮ границу элементов массива:");
         while (!(std::cin >> a)){
-            std::cout << "Неправильный ввод. Введите нижнюю границу элементов массива:";
+            print("Неправильный ввод. Введите нижнюю границу элементов массива:");
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }
-        std::cout << "Введите ВЕРХНЮЮ границу элементов массива:";
+        print("Введите ВЕРХНЮЮ границу элементов массива:");
         while (!(std::cin >> b)||b<a){
-            std::cout << "Неправильный ввод. Введите вернюю границу элементов массива (не меньше нижней):";
+            print("Неправильный ввод. Введите вернюю границу элементов массива (не меньше нижней):");
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }
@@ -100,7 +104,7 @@ int main(){
     else std::cout << "Сумма модулей элементов после первого нулевого: " << "—" << std::endl;
 
     //Сжатие массива () - DONE
-    std::cout << "Исходный массив: ";
+    print("Исходный массив: ");
     printarray(Arr,size);
     
     int write = 0;
@@ -111,7 +115,7 @@ int main(){
         write++;
     }
 
-    std::cout << "Преобразованный массив: ";
-    printarray(Arr,size);
+    print("Преобразованный массив: ");
+    printArray(Arr,size);
     delete[] Arr;
 }
