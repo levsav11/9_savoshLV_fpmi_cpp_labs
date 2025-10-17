@@ -10,22 +10,29 @@ void printint(int a){
     std::cout << a;
 }
 //Печать массива
-void printArray(int* A,const int &len){
+void printArray(int* &A,const int &len){
     for (int i = 0; i < len; i++){
         std::cout << A[i] << " ";
     }
     std::cout << std::endl;
 }
 
-std::string spaces(const int count){
-    std::string spaces="";
-    for (int i=1;i<=count;i++){
-        spaces += " ";
+int** allocateMatrix(int rows,int cols){
+        int** matr = new int*[rows]; 
+    for(int i=0; i<cols; i++){
+        matr[i] = new int[cols];
     }
-    return spaces;
+    return matr;
 }
 
-void printMatrix(int** matr,int rows,int cols,int maxwidth) {
+void deleteMatrix(int** &matr, int rows){
+    for (int i=0; i<rows; i++){
+        delete[] matr[i];
+    }
+    delete[] matr;
+}
+
+void printMatrix(int** &matr,int rows,int cols,int maxwidth){
     for (int j = 0; j < rows; j++){
         for (int i = 0; i < cols; i++) {
             std::cout << std::setw(maxwidth) << matr[i][j];
@@ -43,11 +50,9 @@ int main(){
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
+    
     //Создание матрицы
-    int** Matrix = new int*[len]; 
-    for(int i=0;i<len;i++){
-        Matrix[i] = new int[len];
-    }
+    int** Matrix = allocateMatrix(len,len);
     //Ход
     int left=0,right=len-1,up=0,down=len-1,sq=len*len;
     int maxwidth=std::to_string(sq).length()+2;
@@ -81,6 +86,7 @@ int main(){
             int i = left;
             Matrix[i][j]=k;
             k++;
+            if (k==sq) break;
         }
         left+=1;
     }
@@ -97,8 +103,5 @@ int main(){
     printint(summa);
 
     //Удаление матрицы
-    for (int i=0; i<len; ++i){
-        delete[] Matrix[i];
-    }
-    delete[] Matrix;
+    deleteMatrix(Matrix,len);
 }
