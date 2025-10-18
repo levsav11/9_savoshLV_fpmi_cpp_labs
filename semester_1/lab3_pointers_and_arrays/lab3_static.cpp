@@ -109,7 +109,7 @@ int main(){
         std::cout << "Сумма элементов между первым и вторым положительным: " << s << std::endl;
     }
     
-    //Преобразование - доделать
+    //Преобразование
     double lim1,lim2;
     print("Введите НИЖНЮЮ границу интервала, принадлежащие которому элементы будут перенесены в конец:");
     while (!(std::cin >> lim1)){
@@ -118,7 +118,7 @@ int main(){
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
     print("Введите ВЕРХНЮЮ границу интервала, принадлежащие которому элементы будут перенесены в конец:");
-    while (!(std::cin >> lim2)){
+    while (!(std::cin >> lim2)||(lim2<lim1)){
         print("Неправильный ввод. Введите верхнюю границу интервала: ");
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
