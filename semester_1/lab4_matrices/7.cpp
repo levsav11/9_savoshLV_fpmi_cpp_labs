@@ -1,15 +1,14 @@
 #include <iostream>
 #include <iomanip>
 #include <limits>
-//Печать строки
-void print(std::string str){
+void printstr(std::string str){
     std::cout << str;
 }
-//Печать int
+
 void printint(int a){
     std::cout << a;
 }
-//Печать массива
+
 void printArray(int* &A,const int &len){
     for (int i = 0; i < len; i++){
         std::cout << A[i] << " ";
@@ -25,7 +24,7 @@ int** allocateMatrix(int rows,int cols){
     return matr;
 }
 
-void deleteMatrix(int** &matr, int rows){
+void deleteMatrix(int** &matr,int rows){
     for (int i=0; i<rows; i++){
         delete[] matr[i];
     }
@@ -44,9 +43,9 @@ void printMatrix(int** &matr,int rows,int cols,int maxwidth){
 int main(){
     setlocale(LC_ALL,"ru");
     int len, k=1;
-    print("Введите длину стороны квадрата матрицы: ");
+    printstr("Введите длину стороны квадрата матрицы: ");
     while (!(std::cin >> len) || (len < 1)){
-        print("Неверный размер массива. Попробуйте ещё раз: ");
+        printstr("Неверный размер массива. Попробуйте ещё раз: ");
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
@@ -99,7 +98,7 @@ int main(){
             int j=len-1-i;
             summa+=Matrix[i][j];
         }
-    print("Сумма элементов побочной диагонали: ");
+    printstr("Сумма элементов побочной диагонали: ");
     printint(summa);
 
     //Удаление матрицы

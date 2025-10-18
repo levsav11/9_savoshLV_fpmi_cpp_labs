@@ -15,6 +15,7 @@ void print(std::string str){
     std::cout << str;
 }
 int main(){
+    setlocale(LC_ALL,"ru");
     //Ввод и проверка
     print("Введите: \n 1, если хотите ввести массив вручную \n 0, если хотите автоматически заполнить массив в нужном диапазоне чисел \n ОТВЕТ:");
     while (!(std::cin >> mode) || (mode>1) || (mode<0)){

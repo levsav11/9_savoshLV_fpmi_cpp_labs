@@ -15,6 +15,7 @@ void print(std::string str){
 }
 //Ход программы
 int main(){
+    setlocale(LC_ALL,"ru");
     int size,mode;
     print("Введите размер массива в элементах:");
     while (!(std::cin >> size) || (size<1)){
