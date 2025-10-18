@@ -32,8 +32,8 @@ void deleteMatrix(int** &matr,int rows){
 }
 
 void printMatrix(int** &matr,int rows,int cols,int maxwidth){
-    for (int j = 0; j < rows; j++){
-        for (int i = 0; i < cols; i++) {
+    for (int i = 0; i < rows; i++){
+        for (int j = 0; j < cols; j++) {
             std::cout << std::setw(maxwidth) << matr[i][j];
         }
         std::cout << "\n";
@@ -57,32 +57,32 @@ int main(){
     int maxwidth=std::to_string(sq).length()+2;
     while (k<=sq){
         //слева направо
-        for (int i=left;i<=right;++i){
-            int j = up;
+        for (int j=left;j<=right;++j){
+            int i = up;
             Matrix[i][j]=k;
             k++;
             if (k==sq) break;
         }
         up+=1;
         //сверху вниз
-        for (int j=up;j<=down;++j){
-            int i = right;
+        for (int i=up;i<=down;++i){
+            int j = right;
             Matrix[i][j]=k;
             k++;
             if (k==sq) break;
         }
         right-=1;
         //справа налево
-        for (int i=right;i>=left;--i){
-            int j = down;
+        for (int j=right;j>=left;--j){
+            int i = down;
             Matrix[i][j]=k;
             k++;
             if (k==sq) break;
         }
         down-=1;
         //снизу вверх
-        for (int j=down;j>=up;--j){
-            int i = left;
+        for (int i=down;i>=up;--i){
+            int j = left;
             Matrix[i][j]=k;
             k++;
             if (k==sq) break;
@@ -94,8 +94,8 @@ int main(){
 
     //Вычисление суммы элементов побочной диагонали
     int summa=0;
-    for(int i=0;i<len;++i){
-            int j=len-1-i;
+    for(int j=0;j<len;++j){
+            int i=len-1-j;
             summa+=Matrix[i][j];
         }
     printstr("Сумма элементов побочной диагонали: ");
