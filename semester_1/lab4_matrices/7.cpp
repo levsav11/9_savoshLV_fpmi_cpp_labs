@@ -18,7 +18,7 @@ void printArray(int* &A,const int &len){
 
 int** allocateMatrix(int rows,int cols){
         int** matr = new int*[rows]; 
-    for(int i=0; i<cols; i++){
+    for(int i=0; i<rows; i++){
         matr[i] = new int[cols];
     }
     return matr;

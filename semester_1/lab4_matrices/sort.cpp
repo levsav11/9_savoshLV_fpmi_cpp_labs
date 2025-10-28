@@ -1,37 +1,37 @@
 #include <iostream>
 #include <random>
 #include <iomanip>
-
+#include <limits>
+void swap (int &a, int &b) {
+    int tmp = a;
+    a = b;
+    b = tmp;
+}
 void printstr(std::string str){
     std::cout << str;
 }
-
 void printint(int a){
     std::cout << a;
 }
-
 void printArray(int* A,const int &len){
     for (int i = 0; i < len; i++){
         std::cout << A[i] << " ";
     }
     std::cout << std::endl;
 }
-
 void allocateMatrix(int**& matr,int rows,int cols){
      matr = new int*[rows]; 
-    for(int i=0; i < cols; i++){
+    for(int i=0; i < rows; i++){
         matr[i] = new int[cols];
     }
   //  return matr;
 }
-
 void deleteMatrix(int**& matr,int rows){
     for (int i = 0; i < rows; i++){
         delete[] matr[i];
     }
     delete[] matr;
 }
-
 void printMatrix(int** &matr,int &rows,int &cols,int maxwidth){
     for (int i = 0; i < rows; i++){
         for (int j = 0; j < cols; j++) {
@@ -40,7 +40,6 @@ void printMatrix(int** &matr,int &rows,int &cols,int maxwidth){
         std::cout << "\n";
     }
 }
-
 void fillMatrixFromKeyboard(int** matrix, int rows, int cols) {
   std::cout << "Введите элементы матрицы:" << std::endl;
   for (int i = 0; i < rows; i++) {
@@ -50,28 +49,140 @@ void fillMatrixFromKeyboard(int** matrix, int rows, int cols) {
     }
   }
 }
-
-void sortRowsBubble(int** matrix, int rows, int cols) {
-  for (int i = 0; i < rows; i += 1) {
-    for (int k = 0; k < cols - 1; k++) {
-      for (int j = 0; j < cols - k - 1; j++) {
-        if (matrix[i][j] > matrix[i][j + 1]) {
-          int tmp = matrix[i][j];
-          matrix[i][j] = matrix[i][j + 1];
-          matrix[i][j + 1] = tmp;
-        }
-      }
+void fillMatrixRandom(int** &matrix, int rows, int cols, int limit1, int limit2) {
+    std::mt19937 gen(time(0));
+    std::uniform_int_distribution<int> dist(limit1, limit2);
+  for (int i = 0; i < rows; ++i) {
+    for (int j = 0; j < cols; ++j) {
+      matrix[i][j] = dist(gen);
     }
   }
 }
 
-void fillMatrixRandom(int** matrix, int rows, int cols, int limit1, int limit2) {
-    std::mt19937 gen(time(0));
-    std::uniform_int_distribution<int> dist(limit1, limit2);
-  for (int i = 0; i < rows; i++) {
-    for (int j = 0; j < cols; j++) {
-      matrix[i][j] = dist(gen);
+//сортировки массивов
+
+void sortBubble(int* &arr, int size) {
+    for (int i = 0; i < size - 1; i++) {
+        for (int j = 0; j < size - i - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
+                int temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
+        }
     }
+}
+
+void sortCounting(int* &arr, int size) {
+  int min = arr[0];
+  int max = arr[0];
+  for (int i = 0;i < size - 1; ++i){
+    if (arr[i+1]>max) {
+      max = arr[i+1];
+    }
+    if (arr[i+1]<min) {
+      min = arr[i+1];
+    }
+  }
+
+  int newSize = max - min + 1;
+  int* count = new int[newSize] {};
+
+  for (int j = 0; j < size; ++j) {
+    count[arr[j] - min]++;
+  }
+  
+  int index = 0;
+  for (int num = 0; num < newSize; ++num) {
+      int value = num + min;
+      for (int i = 0; i < count[num]; ++i) {
+          arr[index] = value;
+          index++;
+      }
+  }
+
+  delete[] count;
+}
+
+void sortInsertion(int* &arr, int size) {
+    for (int i = 1; i < size; ++i) {
+        int currentValue = arr[i];
+        int j = i - 1;
+        while (j >= 0 && arr[j] > currentValue) {
+            arr[j + 1] = arr[j];
+            --j;
+        }
+        arr[j + 1] = currentValue;
+    }
+}
+
+void sortMerge(int* &arr, int size) {
+    int mid = size / 2;
+    int* left = new int[mid];
+    int* right = new int[size - mid];
+    
+    for (int i = 0; i < mid; i++)
+        left[i] = arr[i];
+    for (int i = 0; i < size - mid; i++)
+        right[i] = arr[mid + i];
+    
+    sortMerge(left, mid);
+    sortMerge(right, size - mid);
+
+    int i = 0, j = 0, index = 0;
+    while (i < mid && j < size - mid) {
+        if (left[i] <= right[j]) {
+            arr[index++] = left[i++];
+        } else {
+            arr[index++] = right[j++];
+        }
+    }
+    
+    while (i < mid) arr[index++] = left[i++];
+    while (j < size - mid) arr[index++] = right[j++];
+}
+
+void sortSelection(int* &arr, int size) {
+  int* newArr = new int[size];
+  for (int i = 0; i < size; ++i){
+    int min = arr[0];
+    for (int j = 1; j < size; ++j){
+      if (arr[j] < min){
+        min = arr[j];
+      }
+    }
+    newArr[i] = min;
+    arr[i] = std::numeric_limits<int>::max();
+  }
+
+  for (int i = 0; i < size; ++i){
+    arr[i] = newArr[i];
+  }
+  delete[] newArr;
+}
+
+void sortQuick(int* &arr, int size) {
+    int pivot = arr[rand() % size];
+    int left = 0, right = size - 1;
+    
+    while (left <= right) {
+        while (arr[left] < pivot) left++;
+        while (arr[right] > pivot) right--;
+        if (left <= right) {
+          swap(arr[left++], arr[right--]);
+        }
+    }
+    int* leftArr = arr;
+    int* rightArr = arr + left;
+    
+if (right + 1 > 0) sortQuick(leftArr, right + 1);
+if (size - left > 0) sortQuick(rightArr, size - left);
+}
+
+//Выполнить функцию сортировки массива как сортировку матрицы по рядам
+void doWithMatrix(void (*sortFunction)(int* &arr,int size),int** &matrix,int rows,int cols){
+  for (int i = 0;i<rows;++i){
+    sortFunction(matrix[i],cols);
   }
 }
 
@@ -87,9 +198,9 @@ int main(){
     }
     //Выбор типа сортировки
     int sort;
-    printstr("ВВЕДИТЕ: \n 1 для пузырьковой сортировки \n 2 для шейкерной сортировки \n 3 для чётно-нечётной сортировки \n 4 для сортировки вставками \n 5 для сортировки выбором \n 6 для сортировки подсчётом \n 7 для сортировки слиянием \n 8 для быстрой сортировки \n ОТВЕТ:");
+    printstr("ВВЕДИТЕ: \n 1 для пузырьковой сортировки \n 2 для сортировки подсчётом \n 3 для сортировки вставками \n 4 для сортировки слиянием \n 5 для сортировки выбором \n 6 для быстрой сортировки \n ОТВЕТ:");
     while (!(std::cin >> sort) || sort>8 || sort<1) {
-        printstr("Ошибка ввода, попробуйте снова.\n ВВЕДИТЕ: \n 1 для пузырьковой сортировки \n 2 для шейкерной сортировки \n 3 для чётно-нечётной сортировки \n 4 для сортировки вставками \n 5 для сортировки выбором \n 6 для сортировки подсчётом \n 7 для сортировки слиянием \n 8 для быстрой сортировки \n ОТВЕТ:");
+        printstr("Ошибка ввода, попробуйте снова.\n ВВЕДИТЕ: \n 1 для пузырьковой сортировки \n 2 для сортировки подсчётом \n 3 для сортировки вставками \n 4 для сортировки слиянием \n 5 для сортировки выбором \n 6 для быстрой сортировки \n ОТВЕТ:");
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
@@ -97,8 +208,8 @@ int main(){
     //Ввод матрицы
     int length,width;
     printstr ("Введите длину матрицы:");
-    while (!(std::cin >> length)){
-        printstr("Неправильный ввод. Введите длину матрицы:");
+    while (!(std::cin >> length) || (length<=1)){
+        printstr("Неправильный ввод. Введите длину матрицы (Натуральное число > 1):");
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
@@ -108,7 +219,7 @@ int main(){
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
-    int** matrix = {};
+    int** matrix;
     allocateMatrix(matrix,length,width);
     if (mode==1){
         fillMatrixFromKeyboard(matrix,length,width);
@@ -136,9 +247,23 @@ int main(){
     //Сортировка
     //Пузырьковая
     if (sort==1){
-        sortRowsBubble(matrix,length,width);
+      doWithMatrix(sortBubble, matrix, length, width);
     }
-
+    if (sort==2){
+      doWithMatrix(sortCounting, matrix, length, width);
+    }
+    if (sort==3){
+      doWithMatrix(sortInsertion, matrix, length, width);
+    }
+    if (sort==4){
+      doWithMatrix(sortMerge, matrix, length, width);
+    }
+    if (sort==5){
+      doWithMatrix(sortSelection, matrix, length, width);
+    }
+    if (sort==6){
+      doWithMatrix(sortQuick, matrix, length, width);
+    }
     //Вывод
     printstr("Итоговая матрица: \n");
     printMatrix(matrix,length,width,5);
