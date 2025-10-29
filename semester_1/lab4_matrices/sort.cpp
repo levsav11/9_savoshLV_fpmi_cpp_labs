@@ -7,6 +7,11 @@ void swap (int &a, int &b) {
     a = b;
     b = tmp;
 }
+void mirrorArray(int* &arr, int size){
+  for (int i = 0;i < (size / 2); ++i){
+    swap(arr[i],arr[size - i - 1]);
+  }
+}
 void printstr(std::string str){
     std::cout << str;
 }
@@ -179,10 +184,10 @@ if (right + 1 > 0) sortQuick(leftArr, right + 1);
 if (size - left > 0) sortQuick(rightArr, size - left);
 }
 
-//Выполнить функцию сортировки массива как сортировку матрицы по рядам
-void doWithMatrix(void (*sortFunction)(int* &arr,int size),int** &matrix,int rows,int cols){
+//Выполнить функцию для массива как функцию для матрицы по рядам
+void doWithMatrix(void (*function)(int* &arr,int size),int** &matrix,int rows,int cols){
   for (int i = 0;i<rows;++i){
-    sortFunction(matrix[i],cols);
+    function(matrix[i],cols);
   }
 }
 
@@ -190,9 +195,9 @@ int main(){
     setlocale(LC_ALL,"Rus");
     //Выбор режима ввода
     int mode;
-    printstr("ВВЕДИТЕ: \n 1, если хотите ввести матрицу вручную \n 0, если хотите автоматически заполнить матрицу в нужном диапазоне чисел \n ОТВЕТ:");
-    while (!(std::cin >> mode) || mode>1 || mode<0) {
-        printstr("Ошибка ввода, попробуйте снова.\n ВВЕДИТЕ: \n 1, если хотите ввести матрицу вручную \n 0, если хотите автоматически заполнить матрицу в нужном диапазоне чисел \n ОТВЕТ:");
+    printstr("ВВЕДИТЕ: \n 1, если хотите ввести матрицу вручную \n 2, если хотите автоматически заполнить матрицу в нужном диапазоне чисел \n ОТВЕТ:");
+    while (!(std::cin >> mode) || mode>2 || mode<1) {
+        printstr("Ошибка ввода, попробуйте снова.\n ВВЕДИТЕ: \n 1, если хотите ввести матрицу вручную \n 2, если хотите автоматически заполнить матрицу в нужном диапазоне чисел \n ОТВЕТ:");
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
@@ -204,7 +209,13 @@ int main(){
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
-
+    int order;
+    printstr ("Выберите, хотите ли получить ввод по возрастанию (1) или по убыванию (2):");
+    while (!(std::cin >> order) || (order < 1) || (order > 2)){
+        printstr("Неправильный ввод. Выберите, хотите ли получить ввод по возрастанию (1) или по убыванию (2):");
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    }
     //Ввод матрицы
     int length,width;
     printstr ("Введите длину матрицы:");
@@ -245,24 +256,27 @@ int main(){
     printstr("\n");
 
     //Сортировка
-    //Пузырьковая
-    if (sort==1){
+    if (sort == 1){
       doWithMatrix(sortBubble, matrix, length, width);
     }
-    if (sort==2){
+    if (sort == 2){
       doWithMatrix(sortCounting, matrix, length, width);
     }
-    if (sort==3){
+    if (sort == 3){
       doWithMatrix(sortInsertion, matrix, length, width);
     }
-    if (sort==4){
+    if (sort == 4){
       doWithMatrix(sortMerge, matrix, length, width);
     }
-    if (sort==5){
+    if (sort == 5){
       doWithMatrix(sortSelection, matrix, length, width);
     }
-    if (sort==6){
+    if (sort == 6){
       doWithMatrix(sortQuick, matrix, length, width);
+    }
+
+    if (order == 2){
+      doWithMatrix(mirrorArray, matrix, length, width);
     }
     //Вывод
     printstr("Итоговая матрица: \n");
