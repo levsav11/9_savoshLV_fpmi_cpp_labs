@@ -1,12 +1,12 @@
 #include <iostream>
 #include <iomanip>
 #include <limits>
-void printstr(std::string str){
+void printStr(std::string str){
     std::cout << str;
 }
 
-void printint(int a){
-    std::cout << a;
+void printInt(int a){
+        std::cout << a;
 }
 
 void printArray(int* &A,const int &len){
@@ -43,9 +43,9 @@ void printMatrix(int** &matr,int rows,int cols,int maxwidth){
 int main(){
     setlocale(LC_ALL,"ru");
     int len, k=1;
-    printstr("Введите длину стороны квадрата матрицы: ");
+    printStr("Введите длину стороны квадрата матрицы: ");
     while (!(std::cin >> len) || (len < 1)){
-        printstr("Неверный размер массива. Попробуйте ещё раз: ");
+        printStr("Неверный размер массива. Попробуйте ещё раз: ");
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
@@ -98,8 +98,8 @@ int main(){
             int i=len-1-j;
             summa+=Matrix[i][j];
         }
-    printstr("Сумма элементов побочной диагонали: ");
-    printint(summa);
+    printStr("Сумма элементов побочной диагонали: ");
+    printInt(summa);
 
     //Удаление матрицы
     deleteMatrix(Matrix,len);
