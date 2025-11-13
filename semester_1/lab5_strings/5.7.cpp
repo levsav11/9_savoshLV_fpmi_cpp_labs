@@ -14,20 +14,16 @@ void readline(std::string &str){
         exit(404);
     }
 }
-void printstr(std::string &str){
+void printStr(std::string &str){
     std::cout << str;
 }
 
-void printmsg(std::string str){
+void printMsg(std::string str){
     std::cout << str;
 }
 
-void printint(int a){
+void printInt(int a){
     std::cout << a;
-}
-
-void message(std::string message){
-    std::cout << message;
 }
 
 std::string cutWord(std::string& text, size_t numberOfWord) {
@@ -117,7 +113,7 @@ void printIntVector(const std::vector<int>& vec) {
 int main(){
     setlocale(LC_ALL,"Rus");
     std::string str;
-    printmsg("Введите строку: \n");
+    printMsg("Введите строку: \n");
     readline(str);
     std::vector<std::string> words;
     divideByWords(str, words);
@@ -159,14 +155,15 @@ int main(){
     }
 
     str.insert(0,paste);
-    printmsg("Обработанная строка: \n");
-    printstr(str);
+    printMsg("Обработанная строка: \n");
+    printStr(str);
     }
     catch (const std::runtime_error& e){
-        error(e.what(), YELLOW);
+        error(e.what(), BLUE);
     }
     catch (bool iscorrect){
-        printmsg("Итоговая строка: ");
-        printstr(str);
+        printMsg("Итоговая строка: ");
+        printStr(str);
     }
+    return 0;
 }
