@@ -19,8 +19,8 @@ public:
     //операторы индексирования const и неconst
     const int& operator[](int index) const;
     int& operator[](int index); //должен позволять менять
-    int Size();  //getSize
-    int Capacity();  //getCapacity
+    int Size() const;  //getSize
+    int Capacity() const;  //getCapacity
     void PushBack(int elem); //добавляет элемент в конец вектора + реаллокация при необх
     void PopBack(); //удаляет последний элемент, capacity не меняет
     void Clear(); //делает контейнер пустым, capacity не меняет

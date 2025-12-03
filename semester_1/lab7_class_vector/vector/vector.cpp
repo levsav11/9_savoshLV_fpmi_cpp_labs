@@ -4,7 +4,6 @@ void Vector::Reserve(int newCapacity){
     if (newCapacity <= capacity_) return;
     int* oldData = data_;
     int oldSize = size_;
-    int oldCapacity = capacity_;
     data_ = new int[newCapacity];
     for (int i = 0; i < oldSize; ++i){
         data_[i] = oldData[i];
@@ -32,6 +31,17 @@ Vector::Vector(std::initializer_list<int> list)
     for (int value : list){
         data_[index] = value;
         ++index;
+    }
+}
+Vector::Vector(const Vector& other)
+:data_(nullptr),
+ size_(other.size_),
+ capacity_(other.capacity_){
+    if (capacity_ > 0){
+        data_ = new int[size_];
+        for (int i = 0; i < size_; ++i){
+            data_[i] = other.data_[i];
+        }
     }
 }
 Vector& Vector::operator=(const Vector& other){
@@ -72,10 +82,10 @@ void Vector::Swap(Vector& other){
     capacity_ = other.capacity_;
     other.capacity_ = tmpCapacity;
 }
-int Vector::Size(){
+int Vector::Size() const{
     return size_;
 }
-int Vector::Capacity(){
+int Vector::Capacity() const{
     return capacity_;
 }
 void Vector::PushBack(int elem){
@@ -103,4 +113,5 @@ std::ostream& operator<<(std::ostream& os,const Vector& v){
         }
     }
     os << ']';
+    return os;
 }
