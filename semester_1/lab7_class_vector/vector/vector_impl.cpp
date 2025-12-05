@@ -78,13 +78,13 @@ void Vector::Swap(Vector& other){
     size_ = other.size_;
     other.size_ = tmpSize;
 
-    size_t tmpInvalid case style for variable 'tmpCapacity' (fix available)clang-tidyreadability-identifier-namingCapacity = capacity_;
+    size_t tmpCapacity = capacity_;
     capacity_ = other.capacity_;
     other.capacity_ = tmpCapacity;
 }
 size_t Vector::Size() const{
     return size_;
-}Invalid case style for variable 'tmpCapacity' (fix available)clang-tidyreadability-identifier-naming
+}
 size_t Vector::Capacity() const{
     return capacity_;
 }
