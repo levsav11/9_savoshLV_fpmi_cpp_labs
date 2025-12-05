@@ -169,3 +169,10 @@ $RECYCLE.BIN/
 
 _NCrunch*
 first_class/6.exe
+
+# Clang
+.clang-format
+.clang-tidy
+semester_1/lab7_class_vector/.clang-tidy
+semester_1/lab7_class_vector/.clang-format
+semester_1/lab7_class_vector/.clang-tidy
