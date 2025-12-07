@@ -15,10 +15,9 @@ public:
     Vector(const Vector& other); //копирования
     Vector& operator=(const Vector& other); //оператор присваивания копированием
     ~Vector(); //деструктор
-    void Swap(Vector& other);
-    //операторы индексирования const и неconst
-    const int& operator[](size_t index) const;
-    int& At (size_t index) const;
+    void Swap(Vector& other);  //перестановка
+    const int& operator[](size_t index) const; //операторы индексирования const и неconst
+    int& At (size_t index) const; //[] с проверкой
     int& operator[](size_t index); //должен позволять менять
     size_t Size() const;  //getSize
     size_t Capacity() const;  //getCapacity
