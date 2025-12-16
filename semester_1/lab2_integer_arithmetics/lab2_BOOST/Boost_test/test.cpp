@@ -1,10 +1,9 @@
 #define BOOST_TEST_MODULE TriplesTest
 #include <boost/test/included/unit_test.hpp>
 #include "../Boost_code/Pyth.cpp"
-
-static bool contains_triple(const std::vector<std::vector<int64_t>> &triples, int64_t a, int64_t b, int64_t c) {
-    for (const std::vector<int64_t>& t : triples) {
-        if ((t[0] == a) && (t[1] == b) && (t[2] == c))
+bool contains_triple(const std::vector<std::vector<int64_t>> &triples, int64_t a, int64_t b, int64_t c) {
+    for (const std::vector<int64_t>& triple : triples) {
+        if ((triple[0] == a) && (triple[1] == b) && (triple[2] == c))
             return true;
     }
     return false;

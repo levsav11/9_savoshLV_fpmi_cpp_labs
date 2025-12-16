@@ -7,10 +7,11 @@ class ForwardList {
 
 private:
     struct Node {
-        int32_t value_;
-        Node* next_;
+        int32_t value_; //значение
+        Node* next_; //указатель на следующий элемент
 
-        explicit Node(int value) : value_(value), next_(nullptr) {
+        explicit Node(int value)
+        : value_(value), next_(nullptr) {
         }
     };
 
@@ -23,8 +24,7 @@ public:
         using pointer = value_type*;
         using reference = value_type&;
 
-        explicit ForwardListIterator(Node* position) : position_(position) {
-        }
+        explicit ForwardListIterator(Node* position) : position_(position) {}
 
         ForwardListIterator& operator++() {  // prefix
             if (position_ != nullptr) {
@@ -40,7 +40,7 @@ public:
         }
 
         bool operator==(const ForwardListIterator& other) const {
-            // your code goes here
+            return position_ == other.position_; //DONE
         }
 
         bool operator!=(const ForwardListIterator& other) const {
@@ -58,24 +58,25 @@ public:
     private:
         Node* position_;
     };
-
     // methods for "ranged-based for loop"
     // 1) non-const version
     ForwardListIterator begin() {
-        // your code goes here
+        return ForwardListIterator(head_);
     }
     ForwardListIterator end() {
-        // your code goes here
+        return ForwardListIterator(nullptr);
     }
 
     // 2) const version
     // TODO: think about return type
     // (is it exactly ForwardListIterator?)
+
+    //This should be another class ConstForwardListIterator
     ForwardListIterator begin() const {
-        // your code goes here
+        return ForwardListIterator(head_);
     }
     ForwardListIterator end() const {
-        // your code goes here
+        return ForwardListIterator(nullptr);
     }
 
     // default constructor
@@ -125,5 +126,6 @@ public:
     size_t Size() const;
 
 private:
-    // your code goes here
+    Node* head_ = nullptr;
+    size_t size_ = 0;
 };
