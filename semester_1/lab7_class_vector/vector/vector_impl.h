@@ -17,7 +17,8 @@ public:
     ~Vector(); //деструктор
     void Swap(Vector& other);  //перестановка
     const int& operator[](size_t index) const; //операторы индексирования const и неconst
-    int& At (size_t index) const; //[] с проверкой
+    const int& At (size_t index) const; //[] с проверкой
+    int& At(size_t index);
     int& operator[](size_t index); //должен позволять менять
     size_t Size() const;  //getSize
     size_t Capacity() const;  //getCapacity

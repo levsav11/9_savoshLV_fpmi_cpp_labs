@@ -11,6 +11,7 @@ void Vector::Reserve(size_t newCapacity){
     delete[] oldData;
     capacity_ = newCapacity;
 }
+
 Vector::Vector()
 :data_(nullptr),
  size_(0),
@@ -25,7 +26,7 @@ Vector::Vector(size_t size)
 }
 Vector::Vector(std::initializer_list<int> list)
 :data_(nullptr),
- size_(static_cast<size_t>(list.size())), capacity_(static_cast<size_t>(list.size())){
+ size_(list.size()), capacity_(list.size()){
     data_ = new int[capacity_];
     size_t index = 0;
     for (int value : list){
@@ -33,6 +34,7 @@ Vector::Vector(std::initializer_list<int> list)
         ++index;
     }
 }
+
 Vector::Vector(const Vector& other)
 :data_(nullptr),
  size_(other.size_),
@@ -44,6 +46,8 @@ Vector::Vector(const Vector& other)
         }
     }
 }
+
+
 Vector& Vector::operator=(const Vector& other){
     if (this == &other){
         return *this;
@@ -57,13 +61,16 @@ Vector& Vector::operator=(const Vector& other){
     }
     return *this;
 }
+
+
 int& Vector::operator[](size_t index){
     return data_[index];
 }
 const int& Vector::operator[](size_t index) const {
     return data_[index];
 }
-int& Vector::At(size_t index) const{
+
+int& Vector::At(size_t index){
     if (index > size_ - 1){
         throw std::out_of_range("Index out of range!");
     }
@@ -71,6 +78,17 @@ int& Vector::At(size_t index) const{
         return data_[index];
     }
 }
+
+
+const int& Vector::At(size_t index) const {
+    if (index > size_ - 1){
+        throw std::out_of_range("Index out of range!");
+    }
+    else{
+        return data_[index];
+    }
+}
+
 Vector::~Vector(){
     delete[] data_;
     /*data_ = nullptr;
@@ -90,15 +108,17 @@ void Vector::Swap(Vector& other){
     capacity_ = other.capacity_;
     other.capacity_ = tmpCapacity;
 }
+
 size_t Vector::Size() const{
     return size_;
 }
 size_t Vector::Capacity() const{
     return capacity_;
 }
+
 void Vector::PushBack(int elem){
     if (capacity_ == size_){
-        size_t newCapacity = (capacity_ == 0 ? 1 : 2 * capacity_);
+        size_t newCapacity = (capacity_ == 0u ? 1 : 2 * capacity_);
         Reserve(newCapacity);
     }
     data_[size_] = elem;
@@ -116,7 +136,7 @@ std::ostream& operator<<(std::ostream& os,const Vector& v){
     os << '[';
     for (size_t i = 0; i < v.size_; ++i){
         os << v.data_[i];
-        if (i < v.size_ - 1){
+        if (i + 1 < v.size_ ){
             os << ", ";
         }
     }
