@@ -144,5 +144,6 @@ int main() {
             ++counter;
         };
     }
+    in.close();
     return 0;
 }
