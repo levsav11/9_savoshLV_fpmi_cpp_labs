@@ -38,15 +38,19 @@ ForwardList::ForwardList(std::initializer_list<int32_t> init)
 ForwardList& ForwardList::operator=(const ForwardList& rhs) {
     if (this == &rhs) return *this;
     
-    Clear();
+    //Clear();
     
-    Node* tail = nullptr;
-    for (Node* it = rhs.head_; it; it = it->next_) {
-        Node* node = new Node(it->value_);
-        if (!tail) head_ = node;
-        else tail->next_ = node;
-        tail = node; ++size_;
-    }
+    ForwardList tmp(rhs);
+    std::swap(head_, tmp.head_);
+    std::swap(size_, tmp.size_);
+
+    // Node* tail = nullptr;
+    // for (Node* it = rhs.head_; it; it = it->next_) {
+    //     Node* node = new Node(it->value_);
+    //     if (!tail) head_ = node;
+    //     else tail->next_ = node;
+    //     tail = node; ++size_;
+    // }
     return *this;
 }
 void ForwardList::PushFront(int32_t value) {
