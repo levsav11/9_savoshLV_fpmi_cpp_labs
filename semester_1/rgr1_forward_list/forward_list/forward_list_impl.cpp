@@ -7,10 +7,12 @@ ForwardList::~ForwardList() {
 }
 ForwardList::ForwardList(const ForwardList& rhs) : head_(nullptr), size_(0) {
     Node* tail = nullptr;
-    for (Node* it = rhs.head_; it; it = it->next_) {
+    for (Node* it = rhs.head_; it != nullptr; it = it->next_) {
         Node* node = new Node(it->value_);
-        if (!tail) head_ = node;
-        else tail->next_ = node;
+        if (tail == nullptr) head_ = node;
+        else {
+            tail->next_ = node;
+        }
         tail = node; ++size_;
     }
 }
