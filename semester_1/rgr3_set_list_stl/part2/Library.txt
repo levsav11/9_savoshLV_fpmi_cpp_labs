@@ -1,0 +1,10 @@
+UDK:132;Name:C++ Primer;Year:2012;Authors:Lippman Stanley Bruce, Lajoie Josee Anne;
+UDK:133;Name:Clean Code;Year:2008;Authors:Martin Robert Cecil, Ford Michael Charles;
+UDK:134;Name:Design Patterns;Year:1994;Authors:Gamma Erich Rudolf, Helm Richard John;
+UDK:135;Name:Effective C++;Year:2005;Authors:Meyers Scott Douglas, Gregg Andrew Lee;
+UDK:136;Name:Modern C++;Year:2019;Authors:Sutter Herb John, Alexandrescu Andrei Dan;
+UDK:137;Name:Linear Algebra;Year:2015;Authors:Strang Gilbert William, Lay David Collingwood;
+UDK:138;Name:Discrete Math;Year:2010;Authors:Rosen Kenneth Hiram, Goodrich Michael Thomas;
+UDK:139;Name:Algorithms;Year:2009;Authors:Cormen Thomas Howard, Rivest Ronald Linn;
+UDK:140;Name:War and Peace;Year:1869;Authors:Tolstoy Lev Nikolaevich, Maikov Apollon Nikolaevich;
+UDK:141;Name:The Hobbit;Year:1937;Authors:Tolkien John Ronald Reuel, Lewis Clive Staples;

@@ -14,6 +14,7 @@ std::vector<Train> read_trains(std::ifstream& in){
     std::vector<Train> result;
     Train train;
     while(getline(in, line) && !line.empty()) {
+        if (line.empty()) continue;
         int start = line.find_first_not_of(' ', line.find_first_of(':', 0) + 1);
         int end = line.find_first_of(';', start);
         std::string ID = line.substr(start, end - start);
@@ -112,5 +113,6 @@ int main() {
         }
     }
     std::cout << trains[fastest_train_index];
+    in.close();
     return EXIT_SUCCESS;
 }
