@@ -97,7 +97,7 @@ int main() {
         printErrRed("palindromes are missing");
         return 0;
     }
-    printMsgInt("\n\nДлина наибольшего палиндрома: ", maxPalindromeLength);
+    printMsgInt("\n\nMax palindrome length: ", maxPalindromeLength);
     
     printMsg("\n\nAnswer:\n");
     in.clear();
