@@ -4,7 +4,7 @@
 #include "Pyth.h"
 
 int64_t count_a(int32_t m, int32_t n) {
-    return static_cast<int64_t>(m) * m - static_cast<int64_t>(n) * n;
+    return static_cast<int64_t>(m) * m - static_cast<int64_t>(n) * n + 1;
 }
 int64_t count_b(int32_t m, int32_t n) {
     return static_cast<int64_t>(m) * n * 2;
