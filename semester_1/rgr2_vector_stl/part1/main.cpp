@@ -69,26 +69,21 @@ void add_from_interval(std::vector<int>& vec){
     int right;
     std::cout << "Введите левую границу (индекс): ";
     if(!(std::cin >> left)){
-        std::cerr << "Ошибка ввода" << std::endl;
-        exit(1);
+        throw std::runtime_error("Ошибка ввода");
     }
     if (left < 0 || left > vec.size()){
-        std::cerr << "Левая граница должна быть не меньше 0 и не больше размера вектора" << std::endl;
-        exit(2);
+        throw std::invalid_argument("Левая граница должна быть не меньше 0 и не больше размера вектора");
     }
 
     std::cout << "Введите правую границу (индекс): ";
     if(!(std::cin >> right)){
-        std::cerr << "Ошибка ввода" << std::endl;
-        exit(1);
+        throw std::runtime_error("Ошибка ввода");
     }
     if (right < 0 || right > vec.size()){
-        std::cerr << "Правая граница должна быть не меньше 0 и не больше размера вектора" << std::endl;
-        exit(2);
+        throw std::invalid_argument("Правая граница должна быть не меньше 0 и не больше размера вектора");
     }
         if (right < left){
-        std::cerr << "Правая граница должна быть не меньше левой" << std::endl;
-        exit(3);
+        throw std::invalid_argument("Правая граница должна быть больше левой");
     }
 
     int sum_interval = 0;
@@ -136,6 +131,12 @@ int main() {
 
     //ввод
     enter_vector(vec);
+    int number;
+    std::cout << "\nВведите число: \n";
+    if(!(std::cin >> number)){
+        std::cerr << "Ошибка ввода" << std::endl;
+        return 1;
+    }
     std::cout << "\nИсходный вектор:\n";
     print_vector(vec);
 
@@ -146,12 +147,6 @@ int main() {
     std::cout << "\nКоличество чисел: \n" << vec.size() << std::endl;
 
     //кол-во равных заданному числу
-    int number;
-    std::cout << "\nВведите число: \n";
-    if(!(std::cin >> number)){
-        std::cerr << "Ошибка ввода" << std::endl;
-        exit(1);
-    }
     std::cout << "\nКоличество чисел равных заданному числу: \n" << count_exact_numbers(vec, number) << std::endl;
 
     //кол-во чисел кратных трём
@@ -163,7 +158,13 @@ int main() {
     print_vector(vec);
     
     //добавление суммы из интервала
-    add_from_interval(vec);
+    try{
+        add_from_interval(vec);
+    }
+    catch(const std::exception& e){
+        std::cerr << e.what() << std::endl;
+        return 1;
+    }
     std::cout << "\nВектор после добавления суммы из интервала: \n";
     print_vector(vec);
 
