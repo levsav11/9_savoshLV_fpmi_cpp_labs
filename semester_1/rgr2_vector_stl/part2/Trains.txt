@@ -1,0 +1,12 @@
+ID: 135;Type: 1;Destination: Moskow;Dispatch time: 12:13;Travelling time: 02:43;
+ID: 136;Type: 0;Destination: Hrodna;Dispatch time: 13:11;Travelling time: 03:41;
+ID: 137;Type: 3;Destination: Mahilyou;Dispatch time: 11:11;Travelling time: 02:42;
+ID: 138;Type: 0;Destination: Hrodna;Dispatch time: 16:21;Travelling time: 02:41;
+ID: 139;Type: 2;Destination: Hrodna;Dispatch time: 13:11;Travelling time: 02:21;
+ID: 140;Type: 1;Destination: Minsk;Dispatch time: 10:45;Travelling time: 01:23;
+ID: 141;Type: 3;Destination: Brest;Dispatch time: 14:30;Travelling time: 04:12;
+ID: 142;Type: 2;Destination: Vitebsk;Dispatch time: 09:15;Travelling time: 03:05;
+ID: 143;Type: 0;Destination: Gomel;Dispatch time: 15:22;Travelling time: 02:58;
+ID: 144;Type: 1;Destination: Moskow;Dispatch time: 07:50;Travelling time: 05:30;
+ID: 145;Type: 4;Destination: Mahilyou;Dispatch time: 12:47;Travelling time: 01:55;
+ID: 146;Type: 2;Destination: Hrodna;Dispatch time: 18:05;Travelling time: 03:17;
