@@ -200,7 +200,7 @@ int main() {
         std::cout << book << '\n';
     }
     
-    print_yellow("Enter: \n1 - to search by author\n2 - to search by title\n3 - to add author by book\n4 - to delete author by book\n5 - to add book\n6 - to delete book\n0 - to exit\n");
+    print_yellow("Enter: \n1 - to search by author\n2 - to search by title\n3 - to add author by book\n4 - to delete author by book\n5 - to add book\n6 - to delete book\n7 - to show all books\n0 - to exit\n");
     int choice;
     if(!(std::cin >> choice)){
         std::cerr << "Input error" << std::endl;
@@ -340,7 +340,14 @@ int main() {
             for (Book& book : Library) {
                 if (book.UDK_ == UDK) {
                     Delete(Library, book);
+                    break;
                 }
+            }
+            break;
+        }
+        case 7: {
+            for (Book& book : Library) {
+                std::cout << book << '\n';
             }
             break;
         }

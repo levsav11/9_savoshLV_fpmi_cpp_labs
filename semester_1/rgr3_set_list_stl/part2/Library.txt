@@ -6,6 +6,6 @@ UDK:138;Name:Discrete Math;Year:2010;Authors:Goodrich Michael Thomas, Rosen Kenn
 UDK:135;Name:Effective C++;Year:2005;Authors:Gregg Andrew Lee, Meyers Scott Douglas;
 UDK:137;Name:Linear Algebra;Year:2015;Authors:Lay David Collingwood, Strang Gilbert William;
 UDK:136;Name:Modern C++;Year:2019;Authors:Alexandrescu Andrei Dan, Sutter Herb John;
+UDK:1488;Name:S peresdachey na novyi god;Year:2025;Authors:Savosh Lev Victorovich;
 UDK:141;Name:The Hobbit;Year:1937;Authors:Lewis Clive Staples, Tolkien John Ronald Reuel;
 UDK:140;Name:War and Peace;Year:1869;Authors:Maikov Apollon Nikolaevich, Tolstoy Lev Nikolaevich;
-UDK:1111;Name:book;Year:2025;Authors:Kotlyarova Sofia Leonidovna, iojsfd ewfdsc efdscx;
