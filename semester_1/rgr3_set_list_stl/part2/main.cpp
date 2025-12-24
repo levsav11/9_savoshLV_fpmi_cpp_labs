@@ -114,14 +114,14 @@ std::list<Book> Search_By_Title(std::list<Book>& Library, const std::string sear
 }
 
 void Read_Library(std::list<Book>& Library) {
-    std::ifstream in("Library.txt");
-    if (!in.is_open()) {
+    std::ifstream file("Library.txt");
+    if (!file.is_open()) {
         std::cerr << "Cannot open file\n";
         return;
     }
     Book book;
     std::string line;
-    while (getline(in, line)){
+    while (getline(file, line)){
         if (line.empty()) continue;
 
         book.authors_.clear();
@@ -164,7 +164,28 @@ void Read_Library(std::list<Book>& Library) {
         
         Add(Library, book);
     }
-    in.close();
+    file.close();
+}
+
+void Write_Library(std::list<Book>& Library) {
+    std::ofstream file("Library.txt");
+    if (!file.is_open()) {
+        std::cerr << "Cannot open file\n";
+        return;
+    }
+    for (const Book& book : Library) {
+        file << "UDK:" << book.UDK_ << ";Name:" << book.title_ << ";Year:" << book.year_ << ";Authors:";
+    bool first = true;
+    for (const Author& author : book.authors_) {
+        if (!first) {
+            file << ", ";
+        }
+        first = false;
+        file << author.surname_ << ' ' << author.name_ << ' ' << author.patronymic_;
+    }
+        file << ';' <<'\n';
+    }
+    file.close();
 }
 
 void print_yellow(std::string str) {
@@ -335,5 +356,9 @@ int main() {
     for (Book& book : Library) {
         std::cout << book << '\n';
     }
+    if (choice != 1 && choice != 2) {
+        Write_Library(Library);
+    }
+
     return 0;
 }
