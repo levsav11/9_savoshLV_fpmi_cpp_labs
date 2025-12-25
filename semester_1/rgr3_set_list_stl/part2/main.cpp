@@ -2,6 +2,7 @@
 #include <list>
 #include <fstream>
 #include <algorithm>
+#include <limits>
 
 struct Author{
     std::string surname_ = "Ivanov";
@@ -16,28 +17,28 @@ struct Author{
                name_      == other.name_ &&
                patronymic_ == other.patronymic_;
     }
+    Author(){};
     Author(const std::string& surname, const std::string& name, const std::string& patronymic)
-    : surname_(surname), name_(name), patronymic_(patronymic) {}
-    Author(){}
+    : surname_(surname), name_(name), patronymic_(patronymic) {};
 };
 
 struct Book{
-    int UDK_ = 000;
-    std::list<Author> authors_ = {{Author()}};
-    std::string title_ = "Book";
-    int year_ = 1990;
+    int UDK_;
+    std::list<Author> authors_;
+    std::string title_;
+    int year_;
 
     bool operator<(const Book& other) const {
         return title_ < other.title_;
     }
-    void Add(const Author& a){
+    void add_author_to_book(const Author& a){
         std::list<Author>::iterator it = authors_.begin();
         while (it != authors_.end() && it->surname_ < a.surname_) {
             ++it;
         }
         authors_.insert(it, a);
     }
-    void Delete(const Author& a){
+    void delete_author_from_book(const Author& a){
         std::list<Author>::iterator it = authors_.begin();
         while (it != authors_.end() && it->surname_ != a.surname_) {
             ++it;
@@ -49,7 +50,7 @@ struct Book{
         }
     }
     Book(){};
-    Book(int UDK, const std::string& title, int year, const std::list<Author>& authors)
+    Book(int UDK, const std::string& title = "Book", int year = 2025, const std::list<Author>& authors = {})
     : UDK_(UDK), authors_(authors), title_(title), year_(year) {};
 };
 
@@ -73,7 +74,7 @@ std::ostream& operator<<(std::ostream& os, const Book& book) {
     return os;
 }
 
-void Add(std::list<Book>& Library, const Book& book) {
+void add_book_to_library(std::list<Book>& Library, const Book& book) {
     std::list<Book>::iterator it = Library.begin();
     while (it != Library.end() && it->title_ < book.title_) {
         ++it;
@@ -81,7 +82,7 @@ void Add(std::list<Book>& Library, const Book& book) {
     Library.insert(it, book);
 }
 
-void Delete(std::list<Book>& Library, const Book& book) {
+void delete_book_from_library(std::list<Book>& Library, const Book& book) {
     std::list<Book>::iterator it = Library.begin();
     while (it != Library.end() && it->title_ != book.title_) {
         ++it;
@@ -91,29 +92,29 @@ void Delete(std::list<Book>& Library, const Book& book) {
     }
 }
 
-std::list<Book> Search_By_Author(std::list<Book>& Library, const Author& search_author) {
+std::list<Book> search_by_author(std::list<Book>& Library, const Author& search_author) {
     std::list<Book> result;
     for (const Book &book : Library) {
         for (const Author& author : book.authors_) {
             if (author == search_author) {
-                Add(result, book);
+                add_book_to_library(result, book);
             }
         }
     }
     return result;
 }
 
-std::list<Book> Search_By_Title(std::list<Book>& Library, const std::string search_title) {
+std::list<Book> search_by_title(std::list<Book>& Library, const std::string& search_title) {
     std::list<Book> result;
     for (const Book &book : Library) {
         if (book.title_ == search_title) {
-            Add(result, book);
+            add_book_to_library(result, book);
         }
     }
     return result;
 }
 
-void Read_Library(std::list<Book>& Library) {
+void read_library(std::list<Book>& Library) {
     std::ifstream file("Library.txt");
     if (!file.is_open()) {
         std::cerr << "Cannot open file\n";
@@ -141,33 +142,50 @@ void Read_Library(std::list<Book>& Library) {
         start = line.find_first_not_of(' ', line.find_first_of(':', end) + 1);
         end = line.find_first_of(';', start);
         std::string authors = line.substr(start, end - start);
-        int author_start = 0;
-        
-        while (author_start < (int)authors.size()) {
-            int author_end = authors.find(',', author_start);
-            if (author_end == -1) author_end = authors.size();
+        std::size_t author_start = 0;
+
+        while (author_start < authors.size()) {
+            std::size_t author_end = authors.find(',', author_start);
+            if (author_end == std::string::npos) {
+                author_end = authors.size();
+            }
             
             std::string author = authors.substr(author_start, author_end - author_start);
-            while (!author.empty() && author.front() == ' ')
+            
+            while (!author.empty() && author.front() == ' ') {
                 author.erase(author.begin());
+            }
             
-            std::string surname = author.substr(0, author.find_first_of(' '));
-            int name_start = author.find_first_of(' ') + 1;
-            int name_end = author.find_first_of(' ', name_start);
-            std::string name = author.substr(name_start, name_end - name_start);
-            std::string patronymic = author.substr(name_end + 1, author.length() - name_end - 1);
-            book.Add(Author(surname, name, patronymic));
+            std::size_t first_space = author.find(' ');
+            if (first_space == std::string::npos) {
+                if (author_end == authors.size()) break;
+                author_start = author_end + 1;
+                continue;
+            }
             
-            if (author_end == (int)authors.size()) break;
+            std::size_t second_space = author.find(' ', first_space + 1);
+            if (second_space == std::string::npos) {
+                if (author_end == authors.size()) break;
+                author_start = author_end + 1;
+                continue;
+            }
+            
+            std::string surname = author.substr(0, first_space);
+            std::string name = author.substr(first_space + 1, second_space - (first_space + 1));
+            std::string patronymic = author.substr(second_space + 1);
+            
+            book.add_author_to_book(Author(surname, name, patronymic));
+            
+            if (author_end == authors.size()) break;
             author_start = author_end + 1;
         }
-        
-        Add(Library, book);
+
+        add_book_to_library(Library, book);
     }
     file.close();
 }
 
-void Write_Library(std::list<Book>& Library) {
+void write_library(std::list<Book>& Library) {
     std::ofstream file("Library.txt");
     if (!file.is_open()) {
         std::cerr << "Cannot open file\n";
@@ -192,24 +210,36 @@ void print_yellow(std::string str) {
     std::cout << "\033[1;33m" << str << "\033[0m";
 }
 
+void print_library(std::list<Book>& Library) {
+    print_yellow("Library:\n");
+    for (const Book& book : Library) {
+        std::cout << book << '\n';
+    }
+}
+
 int main() {
     std::list<Book> Library;
-    Read_Library(Library);
+    read_library(Library);
     print_yellow("Library:\n");
     for (Book& book : Library) {
         std::cout << book << '\n';
     }
     
-    print_yellow("Enter: \n1 - to search by author\n2 - to search by title\n3 - to add author by book\n4 - to delete author by book\n5 - to add book\n6 - to delete book\n7 - to show all books\n0 - to exit\n");
+    print_yellow("Enter: \n1 - to display library\n2 - to search by author\n3 - to search by title\n4 - to add author by book\n5 - to delete author by book\n6 - to add book\n7 - to delete book\n0 - to exit\n");
     int choice;
+    std::cout << "Your choice: ";
     if(!(std::cin >> choice)){
         std::cerr << "Input error" << std::endl;
         return 1;
     }
-    std::cin.ignore();
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     
     switch (choice) {
         case 1: {
+            print_library(Library);
+            break;
+        }
+        case 2: {
             std::cout << "Enter author's surname: ";
             std::string surname;
             std::getline(std::cin, surname);
@@ -220,18 +250,7 @@ int main() {
             std::string patronymic;
             std::getline(std::cin, patronymic);
             Author author(surname, name, patronymic);
-            std::list<Book> result = Search_By_Author(Library, author);
-            print_yellow("Result:\n");
-            for (Book& book : result) {
-                std::cout << book << '\n';
-            }
-            break;
-        }
-        case 2: {
-            std::cout << "Enter book's title: ";
-            std::string title;
-            std::getline(std::cin, title);
-            std::list<Book> result = Search_By_Title(Library, title);
+            std::list<Book> result = search_by_author(Library, author);
             print_yellow("Result:\n");
             for (Book& book : result) {
                 std::cout << book << '\n';
@@ -239,27 +258,13 @@ int main() {
             break;
         }
         case 3: {
-            std::cout << "Enter book's UDK: ";
-            int UDK;
-            if(!(std::cin >> UDK)){
-                std::cerr << "Input error" << std::endl;
-                break;
-            }
-            std::cin.ignore();
-            for (Book& book : Library) {
-                if (book.UDK_ == UDK) {
-                    std::cout << "Enter author's surname: ";
-                    std::string surname;
-                    std::getline(std::cin, surname);
-                    std::cout << "Enter author's name: ";
-                    std::string name;
-                    std::getline(std::cin, name);
-                    std::cout << "Enter author's patronymic: ";
-                    std::string patronymic;
-                    std::getline(std::cin, patronymic);
-                    Author author(surname, name, patronymic);
-                    book.Add(author);
-                }
+            std::cout << "Enter book's title: ";
+            std::string title;
+            std::getline(std::cin, title);
+            std::list<Book> result = search_by_title(Library, title);
+            print_yellow("Result:\n");
+            for (Book& book : result) {
+                std::cout << book << '\n';
             }
             break;
         }
@@ -273,6 +278,41 @@ int main() {
             std::cin.ignore();
             for (Book& book : Library) {
                 if (book.UDK_ == UDK) {
+                    int authors_count;
+                    std::cout << "Enter the number of authors: ";
+                    if(!(std::cin >> authors_count)){
+                        std::cerr << "Input error" << std::endl;
+                        break;
+                    }
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                    for (int i = 1; i <= authors_count; ++i) {
+                        std::cout << "Author " << i << ':' << '\n';
+                        std::cout << "Enter author's surname: ";
+                        std::string surname;
+                        std::getline(std::cin, surname);
+                        std::cout << "Enter author's name: ";
+                        std::string name;
+                        std::getline(std::cin, name);
+                        std::cout << "Enter author's patronymic: ";
+                        std::string patronymic;
+                        std::getline(std::cin, patronymic);
+                        Author author(surname, name, patronymic);
+                        book.add_author_to_book(author);
+                    }
+                }
+            }
+            break;
+        }
+        case 5: {
+            std::cout << "Enter book's UDK: ";
+            int UDK;
+            if(!(std::cin >> UDK)){
+                std::cerr << "Input error" << std::endl;
+                break;
+            }
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            for (Book& book : Library) {
+                if (book.UDK_ == UDK) {
                     std::cout << "Enter author's surname: ";
                     std::string surname;
                     std::getline(std::cin, surname);
@@ -283,35 +323,30 @@ int main() {
                     std::string patronymic;
                     std::getline(std::cin, patronymic);
                     Author author(surname, name, patronymic);
-                    book.Delete(author);
+                    book.delete_author_from_book(author);
                 }
             }
             break;
         }
-        case 5: {
+        case 6: {
             std::cout << "Enter book's UDK: ";
             int UDK;
             if(!(std::cin >> UDK)) {
                 std::cerr << "UDK input error!" << std::endl;
                 break;
             }
-            std::cin.ignore();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+            for (Book& book : Library) {
+                if (book.UDK_ == UDK) {
+                    std::cerr << "UDK already exists!" << std::endl;
+                    return 2;
+                }
+            }
             
             std::cout << "Enter book's title: ";
             std::string title;
             std::getline(std::cin, title);
-            
-            std::cout << "Enter author's surname: ";
-            std::string surname;
-            std::getline(std::cin, surname);
-            
-            std::cout << "Enter author's name: ";
-            std::string name;
-            std::getline(std::cin, name);
-            
-            std::cout << "Enter author's patronymic: ";
-            std::string patronymic;
-            std::getline(std::cin, patronymic);
             
             std::cout << "Enter book's year: ";
             int year;
@@ -319,36 +354,60 @@ int main() {
                 std::cerr << "Year input error!" << std::endl;
                 break;
             }
-            std::cin.ignore();
-            
-            Author author(surname, name, patronymic);
-            std::list<Author> authors = {author};
-            Book book(UDK, title, year, authors);
-            
-            Add(Library, book);
-            std::cout << "Book added successfully!\n";
+
+            int authors_count;
+            std::cout << "Enter the number of authors: ";
+            if(!(std::cin >> authors_count)){
+                std::cerr << "Input error" << std::endl;
+                break;
+            }
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+            Book book(UDK, title, year);
+            for (int i = 1; i <= authors_count; ++i) {
+                std::cout << "Author " << i << ':' << '\n';
+                std::cout << "Enter author's surname: ";
+                std::string surname;
+                std::getline(std::cin, surname);
+                
+                std::cout << "Enter author's name: ";
+                std::string name;
+                std::getline(std::cin, name);
+                
+                std::cout << "Enter author's patronymic: ";
+                std::string patronymic;
+                std::getline(std::cin, patronymic);
+
+                Author author(surname, name, patronymic);
+                book.add_author_to_book(author);
+
+            }
+
+            add_book_to_library(Library, book);
+            print_yellow( "Book added successfully!\n");
             break;
         }
-        case 6: {
+        case 7: {
             std::cout << "Enter book's UDK: ";
             int UDK;
             if(!(std::cin >> UDK)){
                 std::cerr << "Input error" << std::endl;
                 break;
             }
-            std::cin.ignore();
+
+            bool is_deleted = false;
             for (Book& book : Library) {
                 if (book.UDK_ == UDK) {
-                    Delete(Library, book);
+                    delete_book_from_library(Library, book);
+                    std::cout << "Next book deleted successfully:\n";
+                    std::cout << book << '\n';
+                    is_deleted = true;
                     break;
                 }
             }
-            break;
-        }
-        case 7: {
-            for (Book& book : Library) {
-                std::cout << book << '\n';
-            }
+                if (!is_deleted) {
+                    std::cout << "Book with UDK " << UDK << " not found" << std::endl;
+                }
             break;
         }
         case 0: {
@@ -359,12 +418,9 @@ int main() {
             return 0;
         }
     }
-    print_yellow("Library:\n");
-    for (Book& book : Library) {
-        std::cout << book << '\n';
-    }
-    if (choice != 1 && choice != 2) {
-        Write_Library(Library);
+    print_library(Library);
+    if (choice > 2 && choice < 7) {
+        write_library(Library);
     }
 
     return 0;
