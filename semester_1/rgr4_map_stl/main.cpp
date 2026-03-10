@@ -242,7 +242,7 @@ public:
             ++counter;
         }
     }
-    void show_by_subject(std::string subject) {
+    void show_by_subject(std::string& subject) {
         std::list<StudentData> students = get_list_by_subject(subject);
         int counter = 1;
         if (students.empty()) {
