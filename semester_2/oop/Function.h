@@ -14,11 +14,10 @@ class Function{
 
 class LinearFunction : public Function{
     private:
-        const size_t index;
-        double a,b;
+        const size_t index_;
+        double a_,b_;
     public:
-        LinearFunction(double a, double b) 
-        : a(a), b(b), index(counter_++) {}; //ax + b
+        LinearFunction(double a, double b);
         double Evaluate(double x) override;
         void Solve() override;
         void PrintEquation() override;
@@ -26,15 +25,10 @@ class LinearFunction : public Function{
 
 class QuadraticFunction : public Function{
     private:
-        const size_t index;
-        double a,b,c;
+        const size_t index_;
+        double a_,b_,c_;
     public:
-        QuadraticFunction(double a, double b, double c) 
-        : b(b), c(c), index(counter_++){
-            if (a == 0){
-                throw(std::invalid_argument("Неверное уравнение"));
-            }
-        }; //ax^2 + bx + c
+        QuadraticFunction(double a, double b, double c);
         double Evaluate(double x) override;
         void Solve() override;
         void PrintEquation() override;
