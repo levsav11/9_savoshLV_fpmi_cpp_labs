@@ -7,6 +7,7 @@ class Function{
         virtual double Evaluate(double x) = 0;
         virtual void Solve() = 0;
         virtual void PrintEquation() = 0;
+        virtual ~Function() = default;
     protected:
         std::unordered_set<double> solutions_;
         static size_t counter_;

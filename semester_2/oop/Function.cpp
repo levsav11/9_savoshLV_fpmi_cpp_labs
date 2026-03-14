@@ -3,7 +3,7 @@
 
 size_t Function::counter_ = 0;
 LinearFunction::LinearFunction(double a, double b) 
-        : a_(a), b_(b), index_(counter_++) {}; //ax + b
+        : index_(counter_++), a_(a), b_(b) {}; //ax + b
 double LinearFunction::Evaluate(double x){
     return a_ * x + b_;
 }
@@ -22,9 +22,9 @@ void LinearFunction::PrintEquation(){
     std::cout << a_ << "x + " << b_  << " = 0" << std::endl;
 }
 QuadraticFunction::QuadraticFunction(double a, double b, double c) 
-        : a_(a),b_(b), c_(c), index_(counter_++){
+        : index_(counter_++), a_(a), b_(b), c_(c){
             if (a == 0){
-                throw(std::invalid_argument("Неверное уравнение"));
+                throw(std::invalid_argument("многочлен не является квадратным"));
             }
         }; //ax^2 + bx + c
 double QuadraticFunction::Evaluate(double x){
