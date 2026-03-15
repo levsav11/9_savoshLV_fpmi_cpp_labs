@@ -54,7 +54,7 @@ bool QuadraticFunction::IsQuadratic() const{
     return true;
 }
 void QuadraticFunction::Calculate(){
-    double D = b_ * b_ - 4 * a_ * c_;
+    double D = (b_ * b_) - (4 * a_ * c_);
     if (D > 0){
         solutions_.insert((-b_ + sqrt(D)) / (2 * a_));
         solutions_.insert((-b_ - sqrt(D)) / (2 * a_));
@@ -109,5 +109,11 @@ double QuadraticFunction::GetB() const{
 }
 double QuadraticFunction::GetC() const{
     return c_;
+}
+bool QuadraticFunction::IsFullSquare() const{
+    if ((GetB()*GetB() - (4 * GetA() * GetC())) == 0){
+        return true;
+    }
+    return false;
 }
 

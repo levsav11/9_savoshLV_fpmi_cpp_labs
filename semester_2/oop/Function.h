@@ -52,4 +52,5 @@ class QuadraticFunction : public Function{
         double GetA() const override;
         double GetB() const override;
         double GetC() const;
+        bool IsFullSquare() const;
 };
