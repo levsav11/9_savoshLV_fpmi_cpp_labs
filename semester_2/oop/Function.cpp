@@ -2,10 +2,10 @@
 #include <cmath>
 
 size_t Function::counter_ = 0;
-bool LinearFunction::IsLinear(){
+bool LinearFunction::IsLinear() const{
     return true;
 }
-bool LinearFunction::IsQuadratic(){
+bool LinearFunction::IsQuadratic() const{
     return false;
 }
 void LinearFunction::Calculate(){
@@ -21,30 +21,36 @@ void LinearFunction::Calculate(){
 }
 LinearFunction::LinearFunction(double a, double b) 
         :  a_(a), b_(b), index_(++counter_) {}; //ax + b
-double LinearFunction::Evaluate(double x){
+double LinearFunction::Evaluate(double x) const{
     return a_ * x + b_;
 }
-void LinearFunction::Solve(){
+void LinearFunction::Solve(std::ostream& os){
         try{
             this->Calculate();
-            std::cout << "Решение: " << *solutions_.begin() << std::endl;
+            os << "Решение: " << *solutions_.begin() << std::endl;
         }
         catch(const std::logic_error& e){
-            std::cout << e.what() << std::endl;
+            os << e.what() << std::endl;
         }
 }
-void LinearFunction::PrintEquation(){
-    std::cout << a_ << "x + " << b_  << " = 0" << std::endl;
+void LinearFunction::PrintEquation(std::ostream& os) const{
+    os << a_ << "x + " << b_  << " = 0" << std::endl;
 }
-size_t LinearFunction::GetNumber(){
+size_t LinearFunction::GetNumber() const{
     return index_;
 }
 
+double LinearFunction::GetA() const{
+    return a_;
+}
+double LinearFunction::GetB() const{
+    return b_;
+}
 
-bool QuadraticFunction::IsLinear(){
+bool QuadraticFunction::IsLinear() const{
     return false;
 }
-bool QuadraticFunction::IsQuadratic(){
+bool QuadraticFunction::IsQuadratic() const{
     return true;
 }
 void QuadraticFunction::Calculate(){
@@ -67,18 +73,18 @@ QuadraticFunction::QuadraticFunction(double a, double b, double c)
                 throw(std::invalid_argument("многочлен не является квадратным"));
             }
         }; //ax^2 + bx + c
-double QuadraticFunction::Evaluate(double x){
+double QuadraticFunction::Evaluate(double x) const{
     return a_ * x * x + b_ * x + c_;
 }
-void QuadraticFunction::Solve(){
+void QuadraticFunction::Solve(std::ostream& os){
         try{
             this->Calculate();
             switch (solutions_.size()){
                 case 1:
-                    std::cout << "Решение: " << *solutions_.begin() << std::endl;
+                    os << "Решение: " << *solutions_.begin() << std::endl;
                     break;
                 case 2:
-                    std::cout << "Решения: " << *solutions_.begin() << " и " 
+                    os << "Решения: " << *solutions_.begin() << " и " 
                     << *(++solutions_.begin()) << std::endl;
                     break;
                 default:
@@ -86,12 +92,22 @@ void QuadraticFunction::Solve(){
             }
         }
         catch(const std::logic_error& e){
-            std::cout << e.what() << std::endl;
+            os << e.what() << std::endl;
         }
 }
-void QuadraticFunction::PrintEquation(){
-    std::cout << a_ << "x^2 + " << b_ << "x + " << c_ << " = 0" << std::endl;
+void QuadraticFunction::PrintEquation(std::ostream& os) const{
+    os << a_ << "x^2 + " << b_ << "x + " << c_ << " = 0" << std::endl;
 }
-size_t QuadraticFunction::GetNumber(){
+size_t QuadraticFunction::GetNumber() const{
     return index_;
 }
+double QuadraticFunction::GetA() const{
+    return a_;
+}
+double QuadraticFunction::GetB() const{
+    return b_;
+}
+double QuadraticFunction::GetC() const{
+    return c_;
+}
+
