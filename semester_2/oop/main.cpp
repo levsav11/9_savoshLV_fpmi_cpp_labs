@@ -22,9 +22,10 @@ int main(){
         arr[3] = new QuadraticFunction(1,2,1);
         arr[4] = new LinearFunction(0,0);
         //добавление новых тут
-
+        std::cout << "arr[0] = " << arr[0] -> GetNumber()
+        << ", arr[3] = " << arr[3] -> GetNumber();
         std::ofstream out("output.txt");
-        
+
     
 
 
