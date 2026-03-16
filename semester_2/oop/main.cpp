@@ -168,7 +168,7 @@ std::pair<Function**, size_t> ReadArrayFromFile(const std::string& filename){
     in.seekg(0, std::ios::beg);
     Function** arr = new Function*[counter]{};
     std::getline(in, line);
-    while(std::getline(in, line)){
+     while(std::getline(in, line)){
         std::istringstream iss(line);
         int a, b, c;
         if (!(std::getline(iss, line, ','))){
@@ -179,7 +179,7 @@ std::pair<Function**, size_t> ReadArrayFromFile(const std::string& filename){
                 a = std::stoi(line);
             }
             catch (std::invalid_argument& e){
-                printErrorBlue(e, "Ошибка чтения коэффициента a. Строка будет пропущена: " + line);
+                printErrorBlue(e, "Ошибка чтения коэффициента a: ошибка ");
                 continue;
             }
         }
@@ -192,7 +192,7 @@ std::pair<Function**, size_t> ReadArrayFromFile(const std::string& filename){
                 b = std::stoi(line);
             }
             catch (std::invalid_argument& e){
-                printErrorBlue(e, "Ошибка чтения коэффициента b. Строка будет пропущена: " + line);
+                printErrorBlue(e, "Ошибка чтения коэффициента b: ошибка ");
                 continue;
             }
         }
@@ -202,7 +202,7 @@ std::pair<Function**, size_t> ReadArrayFromFile(const std::string& filename){
                 arr[index++] = new QuadraticFunction(a,b,c);
             }
             catch(const std::invalid_argument& e){
-                printErrorBlue(e, "Ошибка чтения коэффициента c. Строка будет пропущена: " + line);
+                printErrorBlue(e, "Ошибка чтения коэффициента c: ошибка ");
                 continue;
             }
             catch(const std::logic_error& e){
