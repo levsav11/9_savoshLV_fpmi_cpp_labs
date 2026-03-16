@@ -34,7 +34,10 @@ void LinearFunction::Solve(std::ostream& os){
         }
 }
 void LinearFunction::PrintEquation(std::ostream& os) const{
-    os << a_ << "x + " << b_  << " = 0" << std::endl;
+    if (a_ != 1) {
+        os << a_;
+    }
+    os <<"x + " << b_  << " = 0" << std::endl;
 }
 size_t LinearFunction::GetNumber() const{
     return index_;
@@ -63,14 +66,14 @@ void QuadraticFunction::Calculate(){
         solutions_.insert(-b_ / (2 * a_));
     }
     else{
-        throw(std::invalid_argument("Решений нет"));
+        throw(std::logic_error("Решений нет"));
     }
 }
 QuadraticFunction::QuadraticFunction(double a, double b, double c) 
         : a_(a), b_(b), c_(c), index_(++counter_){
             if (a == 0){
                 --counter_;
-                throw(std::invalid_argument("многочлен не является квадратным"));
+                throw(std::logic_error("многочлен не является квадратным"));
             }
         }; //ax^2 + bx + c
 double QuadraticFunction::Evaluate(double x) const{
@@ -96,7 +99,14 @@ void QuadraticFunction::Solve(std::ostream& os){
         }
 }
 void QuadraticFunction::PrintEquation(std::ostream& os) const{
-    os << a_ << "x^2 + " << b_ << "x + " << c_ << " = 0" << std::endl;
+    if (a_ != 1){
+        os << a_;
+    }
+    os << "x^2 + ";
+    if (b_ != 1){
+        os << b_;
+    } 
+    os << "x + " << c_ << " = 0" << std::endl;
 }
 size_t QuadraticFunction::GetNumber() const{
     return index_;

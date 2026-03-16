@@ -3,6 +3,7 @@
 #include <fstream>
 #include <string>
 #include <algorithm>
+#include <sstream>
 template <typename T>
 T ReadNumber(std::string&& msg = "Введите число: "){
     T x;
@@ -23,7 +24,7 @@ bool QuadraticSortRule(const QuadraticFunction *f1, const QuadraticFunction *f2)
     return f1->GetA() < f2->GetA();
 }
 
-void OutputInFile(Function** arr, size_t n, const std::string& filename){
+void OutputToFile(Function** arr, size_t n, const std::string& filename){
         std::ofstream out(filename);
         for (size_t i = 0; i < n; ++i)
         {
@@ -34,7 +35,7 @@ void OutputInFile(Function** arr, size_t n, const std::string& filename){
 }
 
 
-void printErrorBlue(const std::invalid_argument& e, const std::string& context){
+void printErrorBlue(const std::exception& e, const std::string& context){
     std::cout << "\033[34m" << context << e.what() << "\033[0m" << std::endl;
 }
 
@@ -132,7 +133,7 @@ void Zad5(Function** arr, size_t n){
     for (size_t i = 0; i < n; ++i){
         if (QuadraticFunction* curr = dynamic_cast<QuadraticFunction*>(arr[i])){
             if (curr -> IsFullSquare()){
-                arrQuadratic[index] = curr;
+                arrQuadratic[index++] = curr;
             }
         }
     }
@@ -149,6 +150,77 @@ void Zad5(Function** arr, size_t n){
     delete[] arrQuadratic;
 }
 
+std::pair<Function**, size_t> ReadArrayFromFile(const std::string& filename){
+    std::ifstream in(filename);
+    if (!in.is_open()) {
+        throw std::runtime_error("Файл не может быть открыт");
+    }
+    if (in.peek() == EOF){
+        throw std::runtime_error("Файл пуст");
+    }
+    std::string line;
+    int counter = 0, index = 0;
+    while (std::getline(in, line) && !line.empty()){
+        ++counter;
+    }
+    --counter;
+    in.clear();
+    in.seekg(0, std::ios::beg);
+    Function** arr = new Function*[counter]{};
+    std::getline(in, line);
+    while(std::getline(in, line)){
+        std::istringstream iss(line);
+        int a, b, c;
+        if (!(std::getline(iss, line, ','))){
+             throw std::runtime_error("Неверный формат данных в файле");
+        }
+        else {
+            try{
+                a = std::stoi(line);
+            }
+            catch (std::invalid_argument& e){
+                printErrorBlue(e, "Ошибка чтения коэффициента a. Строка будет пропущена: " + line);
+                continue;
+            }
+        }
+
+        if (!(std::getline(iss, line, ','))){
+             throw std::runtime_error("Неверный формат данных в файле");
+        }
+        else {
+            try{
+                b = std::stoi(line);
+            }
+            catch (std::invalid_argument& e){
+                printErrorBlue(e, "Ошибка чтения коэффициента b. Строка будет пропущена: " + line);
+                continue;
+            }
+        }
+        if (std::getline(iss, line, ',')){
+            try{
+                c = std::stoi(line);
+                arr[index++] = new QuadraticFunction(a,b,c);
+            }
+            catch(const std::invalid_argument& e){
+                printErrorBlue(e, "Ошибка чтения коэффициента c. Строка будет пропущена: " + line);
+                continue;
+            }
+            catch(const std::logic_error& e){
+                printErrorBlue(e, "Ошибка создания квадратичной функции: ");
+                continue;
+            }
+        }
+        else{
+            try{
+                arr[index++] = new LinearFunction(a,b);
+            }
+            catch(const std::invalid_argument& e){
+                printErrorBlue(e, "Ошибка создания линейной функции: ");
+            }
+        }
+    }
+    return std::make_pair(arr, index);
+}
 Function** AllocateArray(size_t n){
     Function** arr = new Function*[n]{};
     
@@ -204,9 +276,8 @@ void Menu(Function** arr, size_t n){
 }
 
 int main(){
-    const size_t size = 6;
-    Function** arr = AllocateArray(size);
-    OutputInFile(arr, size, "output.txt");
+    auto [arr, size] = ReadArrayFromFile("input.txt");
+    OutputToFile(arr, size, "output.txt");
     Menu(arr, size);
     ClearArray(arr, size);
 }
