@@ -16,6 +16,10 @@ T ReadNumber(std::string&& msg = "Введите число: "){
     return x;
 }
 
+bool DoubleEqual(double a, double b, double eps = 1e-9) {
+    return std::abs(a - b) < eps;
+}
+
 bool LinearSortRule(const Function *f1, const Function *f2){
     return f1->GetB() > f2->GetB();
 }
@@ -95,7 +99,7 @@ void Zad3(Function** arr, size_t n){
     std::cout << "\nУравнения, для которых f(" << x << ") = " << y << ":" << std::endl;
     bool empty = true;
     for (size_t i = 0; i < n; ++i){
-        if (arr[i] -> Evaluate(x) == y){
+        if (DoubleEqual(arr[i] -> Evaluate(x), y)){
             arr[i] -> PrintEquation(std::cout);
             empty = false;
         }
