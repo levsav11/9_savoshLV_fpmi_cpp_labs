@@ -50,6 +50,7 @@ double LinearFunction::GetB() const{
     return b_;
 }
 
+
 bool QuadraticFunction::IsLinear() const{
     return false;
 }

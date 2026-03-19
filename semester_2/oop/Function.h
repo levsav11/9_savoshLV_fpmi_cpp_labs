@@ -8,6 +8,12 @@ class Function{
         virtual void Solve(std::ostream& os) = 0;
         virtual void PrintEquation(std::ostream& os) const = 0;
         virtual ~Function() = default;
+        Function() = default;
+        Function(const Function& other) = default;
+        Function& operator=(const Function& other) = default;
+        Function(Function&& other) = default;
+        Function& operator=(Function&& other) = default;
+
         virtual void Calculate() = 0;
         virtual size_t GetNumber() const = 0;
         virtual bool IsLinear() const = 0;
@@ -34,6 +40,11 @@ class LinearFunction : public Function{
         size_t GetNumber() const override;
         double GetA() const override;
         double GetB() const override;
+        LinearFunction() = default;
+        LinearFunction(const LinearFunction& other) = default;
+        LinearFunction& operator=(const LinearFunction& other) = default;
+        LinearFunction(LinearFunction&& other) = default;
+        LinearFunction& operator=(LinearFunction&& other) = default;
 };
 
 class QuadraticFunction : public Function{
@@ -53,4 +64,9 @@ class QuadraticFunction : public Function{
         double GetB() const override;
         double GetC() const;
         bool IsFullSquare() const;
+        QuadraticFunction() = default;
+        QuadraticFunction(const QuadraticFunction& other) = default;
+        QuadraticFunction& operator=(const QuadraticFunction& other) = default;
+        QuadraticFunction(QuadraticFunction&& other) = default;
+        QuadraticFunction& operator=(QuadraticFunction&& other) = default;
 };
