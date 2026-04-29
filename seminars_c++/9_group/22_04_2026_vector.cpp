@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <iostream>
 #include <vector>
 #include <utility>
@@ -5,7 +6,7 @@
 
 
 struct S {
-    int x
+    int x;
     S(int x): x(x) {}
 };
 
@@ -89,15 +90,15 @@ class vector<bool> {
     size_t sz_;
 
     struct BitReference {
-        uint8_t* cell;
+        char* cell;
         size_t num;
         
-        BitReference(uint8_t* cell, size_t num)
+        BitReference(char* cell, size_t num)
             : cell(cell), num(num) {}
         
         void operator[](bool value) {
             if (value) {
-                *cell |= (1 << num); // 010101010110011
+                *cell |= (1 << num);
             } else {
                 *cell &= ~(1 << num); 
             }
