@@ -10,7 +10,6 @@
 
 
 namespace utils {
-
     
 inline InventoryPtr CreateSimpleInventory() {
 
@@ -19,8 +18,8 @@ inline InventoryPtr CreateSimpleInventory() {
     ItemPtr dirt = std::make_unique<Dirt>(32);
 
     InventoryPtr inventory = std::make_unique<Inventory>();
-    inventory->add_item(std::move(oak_logs));
-    inventory->add_item(std::move(netherite_sword));
+    inventory->AddItem(std::move(oak_logs));
+    inventory->AddItem(std::move(netherite_sword));
     
 
     ItemPtr acacia_logs = std::make_unique<Log>(LogType::ACACIA, 12);
@@ -31,16 +30,16 @@ inline InventoryPtr CreateSimpleInventory() {
     ItemPtr still_one_more_dirt = std::make_unique<Dirt>(128);
 
     InventoryPtr shulker = std::make_unique<Inventory>();
-    shulker->add_item(std::move(acacia_logs));
-    shulker->add_item(std::move(spruce_logs));
-    shulker->add_item(std::move(diamond_sword));
-    shulker->add_item(std::move(one_more_dirt));
-    shulker->add_item(std::move(wooden_sword));
-    shulker->add_item(std::move(still_one_more_dirt));
+    shulker->AddItem(std::move(acacia_logs));
+    shulker->AddItem(std::move(spruce_logs));
+    shulker->AddItem(std::move(diamond_sword));
+    shulker->AddItem(std::move(one_more_dirt));
+    shulker->AddItem(std::move(wooden_sword));
+    shulker->AddItem(std::move(still_one_more_dirt));
 
 
-    inventory->add_item(std::move(shulker));
-    inventory->add_item(std::move(dirt));
+    inventory->AddItem(std::move(shulker));
+    inventory->AddItem(std::move(dirt));
 
     return inventory;
 }
@@ -49,11 +48,12 @@ inline InventoryPtr CreateSimpleInventory() {
 template <typename ItemType, size_t N>
 inline InventoryPtr GenerateInventory(std::mt19937& generator) {
 
+    std::uniform_int_distribution<size_t> dist(1, 64);
+
     InventoryPtr inventory = std::make_unique<Inventory>();
-    
+    ItemPtr item;
+
     for (size_t i = 0; i < N; ++i) {
-        ItemPtr item;
-        std::uniform_int_distribution<size_t> dist(1, 64);
         if constexpr (std::is_same_v<ItemType, Dirt>) {
             item = std::make_unique<ItemType>(dist(generator));
         } else if constexpr (std::is_same_v<ItemType, Log>) {
@@ -66,7 +66,7 @@ inline InventoryPtr GenerateInventory(std::mt19937& generator) {
             throw std::logic_error("Wrong item type!");
         }
 
-        inventory->add_item(std::move(item));
+        inventory->AddItem(std::move(item));
     }
     return inventory;
 }
@@ -75,11 +75,11 @@ inline InventoryPtr GenerateInventory(std::mt19937& generator) {
 inline void PrintInventoryWithFormat(InventoryPtr& inventory) {
     
     //deselect and print deselected items
-    inventory->deselect();
+    inventory->Deselect();
     std::cout << "*******************************\n";
     std::cout << "Print with all unselected items:\n";
     std::cout << "*******************************\n";
-    inventory->print_info();
+    inventory->PrintInfo();
     std::cout << "*******************************\n";
     std::cout << "End printing with all unselected items.\n";
     std::cout << "*******************************\n";
@@ -87,16 +87,14 @@ inline void PrintInventoryWithFormat(InventoryPtr& inventory) {
     std::cout << '\n' << std::endl;
     
     // select and print selected items
-    inventory->select();
+    inventory->Select();
     std::cout << "*******************************\n";
     std::cout << "Print with all selected items:\n";
     std::cout << "*******************************\n";
-    inventory->print_info();
+    inventory->PrintInfo();
     std::cout << "*******************************\n";
     std::cout << "End printing with all selected items.\n";
     std::cout << "*******************************" << std::endl;
 }
-
-
 
 } // namespace utils

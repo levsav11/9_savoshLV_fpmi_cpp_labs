@@ -32,27 +32,20 @@ private:
     SwordType sw_type_;
 public:
     Sword(SwordType type, int32_t durability)
-      : Item(std::make_unique<ItemInfo>(SwordTypeToString(type) + " sword", 1, durability, false, false)),
+      : Item(ItemInfo{SwordTypeToString(type) + " sword", 1, durability, false, false}),
         sw_type_(type) {}
 
-    void print_info(size_t indent = 0u) const override {
-        if (info_->is_selected_) {
-            info_->PrintWithIndent(std::cout, indent);
-        } else {
-            std::cout << std::string(indent, ' ') << "Item \"" << info_->name_ << "\" is unselected\n";
-        }
-    }
 
-    void use() override {
-        int curr_durability = info_->durability_.value();
-        int used_durability = curr_durability % 7 + 1;
+    void Use() override {
+        uint32_t curr_durability = info_.durability_.value();
+        uint32_t used_durability = curr_durability % 7 + 1;
         if (curr_durability > used_durability) {
-            std::cout << used_durability  << " durability of " << info_->name_ << " were used for fighting\n";
-            info_->durability_ = curr_durability - used_durability;
+            std::cout << used_durability  << " durability of " << info_.name_ << " were used for fighting\n";
+            info_.durability_ = curr_durability - used_durability;
         } else {
-            std::cout << info_->name_ << " broke :(\n";
-            info_->durability_ = 0;
-            deselect();
+            std::cout << info_.name_ << " broke :(\n";
+            info_.durability_ = 0;
+            Deselect();
         }
     }
 };

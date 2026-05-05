@@ -9,27 +9,33 @@
 // item's interface
 class Item {
 protected:
-    ItemInfoPtr info_;
+    ItemInfo info_;
 
 protected:
-    Item(ItemInfoPtr info): info_(std::move(info)) {}
+    Item(ItemInfo info): info_(std::move(info)) {}
 
 public:
-    virtual void select() {
-        info_->is_selected_ = true;
+    virtual void Select() {
+        info_.is_selected_ = true;
     }
     
-    virtual void deselect() {
-        info_->is_selected_ = false;
+    virtual void Deselect() {
+        info_.is_selected_ = false;
     }
 
-    virtual void print_info(size_t indent = 0u) const = 0;
-    virtual void use() = 0;
+    virtual void PrintInfo(size_t indent = 0u) const {
+        if (info_.is_selected_) {
+            info_.PrintWithIndent(std::cout, indent);
+        } else {
+            std::cout << std::string(indent, ' ') << "Item \"" << info_.name_ << "\" is unselected\n";
+        }
+    }
+
+    virtual void Use() = 0;
     
-    // virtual dtor
+    // virtual dtor!
     virtual ~Item() = default;
 };
 
 
 using ItemPtr = std::unique_ptr<Item>;
-

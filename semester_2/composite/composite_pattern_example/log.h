@@ -33,26 +33,19 @@ private:
     LogType log_type_;
 public:
     Log(LogType type, uint32_t amount)
-     : Item(std::make_unique<ItemInfo>(LogTypeToString(type) + " log", amount, std::nullopt, true, false)), 
+     : Item(ItemInfo{LogTypeToString(type) + " log", amount, std::nullopt, true, false}), 
         log_type_(type) {}
 
-    void print_info(size_t indent = 0u) const override {
-        if (info_->is_selected_) {
-            info_->PrintWithIndent(std::cout, indent);
-        } else {
-            std::cout << std::string(indent, ' ') << "Item \"" << info_->name_ << "\" is unselected\n";
-        }
-    }
 
-    void use() override {
-        uint32_t used_logs = info_->amount_ % 16 + 3;
-        if (info_->amount_ > used_logs) {
-            std::cout << used_logs  << " " << info_->name_ << " were used for smelting\n";
-            info_->amount_ -= used_logs;
+    void Use() override {
+        uint32_t used_logs = info_.amount_ % 16 + 3;
+        if (info_.amount_ > used_logs) {
+            std::cout << used_logs  << " " << info_.name_ << " were used for smelting\n";
+            info_.amount_ -= used_logs;
         } else {
-            std::cout << info_->amount_  << " " << info_->name_ << " were used for smelting\n";
-            info_->amount_ = 0;
-            deselect();
+            std::cout << info_.amount_  << " " << info_.name_ << " were used for smelting\n";
+            info_.amount_ = 0;
+            Deselect();
         }
     }
 };

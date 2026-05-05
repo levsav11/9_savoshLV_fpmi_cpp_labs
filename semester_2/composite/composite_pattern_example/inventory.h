@@ -18,10 +18,10 @@ private:
     std::unordered_map<CellNumber, ItemPtr> inventory_;
     std::array<bool, MAX_CELLS_NUMBER> cells_;
 public:
-    Inventory(): Item(nullptr), cells_() {
+    Inventory(): Item(ItemInfo{}), inventory_(), cells_() {
     } 
 	
-    void add_item(ItemPtr item) {
+    void AddItem(ItemPtr&& item) {
         if (inventory_.size() == MAX_CELLS_NUMBER) {
             std::cout << "Inventory is full\n";
             return;
@@ -36,35 +36,35 @@ public:
     }
 
     // select ALL of items in composite
-    virtual void select() override { 
+    virtual void Select() override { 
         for (const auto& [cell, item] : inventory_) {
-            item->select();
+            item->Select();
         }
     }
     
     // deselect ALL of items in composite
-    virtual void deselect() override {
+    virtual void Deselect() override {
         for (const auto& [cell, item] : inventory_) {
-            item->deselect();
+            item->Deselect();
         }
     }
 
     // print information about ALL items
     // in composite
-    void print_info(size_t indent = 0u) const override {
+    void PrintInfo(size_t indent = 0u) const override {
         std::cout << std::string(indent, ' ') << "<--------------------->\n";
         indent += 4u;
         for (const auto& [cell, item] : inventory_) {
             std::cout << std::string(indent, ' ') << "Cell: " << cell << '\n';
-            item->print_info(indent + 2u);
+            item->PrintInfo(indent + 2u);
         }
         std::cout << std::string(indent - 4u, ' ') << "<--------------------->" << std::endl;
     }
 
     // use ALL items in composite
-    void use() override {
+    void Use() override {
         for (const auto& [cell, item] : inventory_) {
-            item->use();
+            item->Use();
         }
     }
 
